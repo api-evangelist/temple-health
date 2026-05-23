@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Temple Health FHIR R4 — Patient
+  description: Read and search Patient demographics on Temple Health's Epic FHIR R4 endpoint under SMART on FHIR scopes.
+  tags:
+  - Temple Health
+  - Epic
+  - FHIR
+  - Patient
+  - USCDI
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    TEMPLE_HEALTH_FHIR_TOKEN: TEMPLE_HEALTH_FHIR_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: temple-health-fhir-r4-patient
+    baseUri: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    description: Patient resource on the Temple Health FHIR R4 endpoint.
+    resources:
+    - name: Patient
+      path: /Patient
+      operations:
+      - name: searchPatient
+        method: GET
+        description: Search Patient by identifier, name, birthdate, or gender.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: identifier
+          in: query
+          type: string
+          description: Patient identifier (e.g. MRN, system|value).
+        - name: name
+          in: query
+          type: string
+          description: Patient name search.
+        - name: birthdate
+          in: query
+          type: string
+          description: Patient date of birth.
+      - name: readPatient
+        method: GET
+        path: /Patient/{id}
+        description: Read Patient by id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Patient logical id.
+    authentication:
+      type: bearer
+      token: '{{env.TEMPLE_HEALTH_FHIR_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: temple-health-fhir-r4-patient-rest
+    port: 8080
+    description: REST adapter for Temple Health FHIR R4 Patient.
+    resources:
+    - path: /v1/patient
+      name: patient
+      description: REST surface for Patient.
+      operations:
+      - method: GET
+        name: searchPatient
+        description: Search Patient.
+        call: temple-health-fhir-r4-patient.searchPatient
+        with:
+          identifier: rest.identifier
+          name: rest.name
+          birthdate: rest.birthdate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: temple-health-fhir-r4-patient-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Temple Health FHIR R4 Patient.
+    tools:
+    - name: search-patient
+      description: Search Patient on Temple Health FHIR R4.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: temple-health-fhir-r4-patient.searchPatient
+      with:
+        identifier: tool.identifier
+        name: tool.name
+        birthdate: tool.birthdate
+    - name: read-patient
+      description: Read Patient by id on Temple Health FHIR R4.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: temple-health-fhir-r4-patient.readPatient
+      with:
+        id: tool.id

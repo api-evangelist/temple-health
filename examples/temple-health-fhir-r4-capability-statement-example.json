@@ -1,0 +1,53 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata",
+    "headers": { "Accept": "application/fhir+json" }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "resourceType": "CapabilityStatement",
+      "status": "active",
+      "date": "2026-02-14",
+      "publisher": "Epic",
+      "software": {
+        "name": "Epic",
+        "version": "August 2025",
+        "releaseDate": "2026-02-14"
+      },
+      "implementation": {
+        "description": "Temple Health FHIR Server",
+        "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4"
+      },
+      "fhirVersion": "4.0.1",
+      "format": ["application/fhir+json", "application/fhir+xml"],
+      "rest": [
+        {
+          "mode": "server",
+          "security": {
+            "service": [
+              {
+                "coding": [
+                  { "system": "http://terminology.hl7.org/CodeSystem/restful-security-service", "code": "OAuth", "display": "OAuth" },
+                  { "system": "http://terminology.hl7.org/CodeSystem/restful-security-service", "code": "SMART-on-FHIR", "display": "SMART-on-FHIR" },
+                  { "system": "http://terminology.hl7.org/CodeSystem/restful-security-service", "code": "Basic", "display": "Basic" }
+                ]
+              }
+            ],
+            "cors": true
+          },
+          "resource": [
+            { "type": "Patient", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "Observation", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "Condition", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "Encounter", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "MedicationRequest", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "AllergyIntolerance", "interaction": [{ "code": "read" }, { "code": "search-type" }] },
+            { "type": "DocumentReference", "interaction": [{ "code": "read" }, { "code": "search-type" }] }
+          ]
+        }
+      ]
+    }
+  }
+}

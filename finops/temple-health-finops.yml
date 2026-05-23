@@ -1,0 +1,60 @@
+finopsFramework: '2024.0'
+focus: '1.1'
+info:
+  title: Temple Health FinOps Disclosure
+  description: >-
+    FinOps disclosure for Temple Health's published API surface. Because
+    the CMS Interoperability and Patient Access FHIR APIs are free at
+    point of use for patient-authorized apps, there is no consumer-facing
+    billing surface to map to the FinOps Framework / FOCUS data spec.
+    The operational cost is borne by Temple Health internally as part of
+    regulatory compliance with CMS-9115-F and the 21st Century Cures
+    Act. Clinical billing (hospital and professional services) is
+    governed by payer contracts, HIPAA, and the Hospital Price
+    Transparency rule — not by an API monetization layer.
+  created: '2026-05-23'
+  modified: '2026-05-23'
+provider:
+  name: Temple Health
+  url: https://www.templehealth.org/
+
+scope:
+  inScope:
+  - id: temple-health-fhir-r4-api
+    name: Temple Health FHIR R4 API
+    billingModel: free
+    chargeCategory: Usage
+    chargeClass: null
+    pricingModel: Free
+    notes: No developer billing. CMS-mandated free access for patient-authorized apps.
+  - id: temple-health-fhir-dstu2-api
+    name: Temple Health FHIR DSTU2 API
+    billingModel: free
+    chargeCategory: Usage
+    pricingModel: Free
+    notes: No developer billing. Legacy free access.
+  - id: price-transparency-mrf
+    name: Temple Health Price Transparency Files
+    billingModel: free
+    chargeCategory: Usage
+    pricingModel: Free
+    notes: Public unauthenticated CSV downloads; no billing.
+  outOfScope:
+  - id: clinical-services
+    name: Clinical Services Billing
+    rationale: Hospital and professional services billing is governed by payer contracts and Hospital Price Transparency, not a developer API meter.
+    references:
+    - https://www.templehealth.org/pricing-disclaimer
+    - https://www.templehealth.org/financial-assistance
+
+invoicing:
+  developerInvoicing: false
+  internalCostRecovery: not-disclosed
+
+tags:
+- name: ChargeCategory
+  values: [Usage]
+- name: PricingModel
+  values: [Free]
+- name: BillingAccountType
+  values: [None]

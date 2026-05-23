@@ -1,0 +1,52 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/Patient?family=Lane&given=Kin&birthdate=1974-04-23&_format=json",
+    "headers": {
+      "Accept": "application/fhir+json",
+      "Authorization": "Bearer eyJraWQiOiI...redacted..."
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "total": 1,
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "Patient",
+            "id": "eXq8H1A9KEX0lpDJxCQ-zJg3",
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:1.2.840.114350.1.13.0.1.7.5.737384.0",
+                "value": "E54321"
+              }
+            ],
+            "name": [
+              {
+                "use": "official",
+                "family": "Lane",
+                "given": ["Kin"]
+              }
+            ],
+            "gender": "male",
+            "birthDate": "1974-04-23",
+            "address": [
+              {
+                "use": "home",
+                "line": ["3401 N Broad St"],
+                "city": "Philadelphia",
+                "state": "PA",
+                "postalCode": "19140",
+                "country": "US"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

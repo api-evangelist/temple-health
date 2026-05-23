@@ -1,0 +1,85 @@
+apiCommonsPlans: '0.1'
+info:
+  title: Temple Health API Plans and Pricing
+  description: >-
+    Commercial plan and pricing surface for Temple Health's published APIs.
+    The CMS Interoperability and Patient Access (CMS-9115-F) FHIR APIs
+    from Temple University Health System are free at the point of use for
+    patient-authorized applications, with cost of access governed by the
+    CMS rule and HIPAA — not by a developer pricing tier. There is no
+    public commercial developer marketplace.
+  created: '2026-05-23'
+  modified: '2026-05-23'
+provider:
+  name: Temple Health
+  url: https://www.templehealth.org/
+plans:
+- id: temple-health-patient-access-fhir
+  name: Temple Health Patient Access FHIR (Free)
+  description: >-
+    Free patient-authorized access to USCDI-aligned EHR data via the
+    Temple Health FHIR R4 endpoint under CMS-9115-F. Apps must register
+    with Epic on FHIR and obtain Temple Health approval to access
+    production data; the API itself is not metered or charged.
+  audience: Patient-facing third-party applications, individual patients.
+  scope: Patient-level read access via SMART on FHIR.
+  pricing:
+    model: free
+    currency: USD
+    amount: 0
+  termsOfService:
+  - https://fhir.epic.com/
+  - https://www.healthit.gov/curesrule/
+  registration:
+    url: https://fhir.epic.com/Developer/Apps
+  notes:
+  - Production access requires Epic on FHIR app registration and Temple Health onboarding.
+  - Bulk Data Group export is supported but typically restricted to organizational data-use agreements.
+
+- id: temple-health-fhir-dstu2-legacy
+  name: Temple Health FHIR DSTU2 (Free, Legacy)
+  description: >-
+    Free legacy DSTU2 FHIR access at the same epicaccess.templehealth.org
+    host. Provided for backward compatibility; new integrations should
+    target the R4 plan above.
+  audience: Legacy SMART on FHIR DSTU2 apps.
+  scope: Patient-level read access via the FHIR DSTU2 baseline.
+  pricing:
+    model: free
+    currency: USD
+    amount: 0
+  registration:
+    url: https://fhir.epic.com/Developer/Apps
+
+- id: temple-health-price-transparency-mrf
+  name: Temple Health Hospital Price Transparency Files (Public)
+  description: >-
+    Public unauthenticated CSV downloads of standard charges for each
+    Temple Health hospital campus, published per the CMS Hospital Price
+    Transparency Final Rule. No registration or payment required.
+  audience: Open public, researchers, price-shopping platforms.
+  scope: Per-campus standard charges (gross, payer-specific negotiated, de-identified min/max, discounted cash).
+  pricing:
+    model: free
+    currency: USD
+    amount: 0
+  registration: null
+  references:
+  - https://www.templehealth.org/pricing-disclaimer
+  - https://www.cms.gov/hospital-price-transparency
+
+- id: clinical-care
+  name: Clinical Care (Out of Scope for Developer Pricing)
+  description: >-
+    Temple Health's hospital and physician services are billed under
+    standard insurance and self-pay arrangements; cost-of-care information
+    is published through the Hospital Price Transparency program (one
+    machine-readable file per hospital campus) and is not a developer-
+    priced API surface.
+  audience: Patients, payers.
+  scope: Out of scope for API monetization.
+  pricing:
+    model: unmetered-clinical-billing
+  references:
+  - https://www.templehealth.org/pricing-disclaimer
+  - https://www.templehealth.org/financial-assistance

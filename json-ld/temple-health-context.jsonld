@@ -1,0 +1,52 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "uscore": "http://hl7.org/fhir/us/core/",
+    "loinc": "http://loinc.org/",
+    "snomed": "http://snomed.info/sct/",
+    "rxnorm": "http://www.nlm.nih.gov/research/umls/rxnorm/",
+    "ucum": "http://unitsofmeasure.org/",
+    "npi": "http://hl7.org/fhir/sid/us-npi/",
+
+    "TempleHealth": "schema:Hospital",
+    "TempleUniversityHealthSystem": "schema:Hospital",
+    "TempleUniversityHospital": "schema:Hospital",
+    "FoxChaseCancerCenter": "schema:Hospital",
+    "ChestnutHillHospital": "schema:Hospital",
+    "TempleWomenAndFamiliesHospital": "schema:Hospital",
+    "LewisKatzSchoolOfMedicine": "schema:MedicalOrganization",
+    "TempleUniversity": "schema:CollegeOrUniversity",
+    "MyTempleHealth": "schema:WebApplication",
+    "FhirEndpoint": "fhir:Endpoint",
+    "FhirCapabilityStatement": "fhir:CapabilityStatement",
+    "SmartConfiguration": "fhir:SmartOnFhir",
+
+    "Patient": "fhir:Patient",
+    "Observation": "fhir:Observation",
+    "Condition": "fhir:Condition",
+    "Encounter": "fhir:Encounter",
+    "MedicationRequest": "fhir:MedicationRequest",
+    "AllergyIntolerance": "fhir:AllergyIntolerance",
+    "DocumentReference": "fhir:DocumentReference",
+    "Procedure": "fhir:Procedure",
+    "DiagnosticReport": "fhir:DiagnosticReport",
+    "Immunization": "fhir:Immunization",
+    "Practitioner": "fhir:Practitioner",
+    "Organization": "fhir:Organization",
+    "Location": "fhir:Location",
+
+    "identifier": "schema:identifier",
+    "name": "schema:name",
+    "address": "schema:address",
+    "telephone": "schema:telephone",
+    "gender": "schema:gender",
+    "birthDate": "schema:birthDate",
+
+    "scopes": "fhir:scope",
+    "authorizationEndpoint": "fhir:authorize",
+    "tokenEndpoint": "fhir:token",
+    "fhirVersion": "fhir:version"
+  }
+}

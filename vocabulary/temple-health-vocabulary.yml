@@ -1,0 +1,135 @@
+name: Temple Health Vocabulary
+description: >-
+  Operational and capability vocabulary for the Temple University Health
+  System enterprise: the academic hospital system (Temple Health) and its
+  affiliates (Temple University Hospital campuses, Fox Chase Cancer Center,
+  Temple Health Chestnut Hill Hospital, Temple Women & Families Hospital)
+  with the Lewis Katz School of Medicine. Anchored on HL7 FHIR R4, US Core,
+  SMART App Launch, and the CMS Interoperability and Patient Access Final
+  Rule.
+created: '2026-05-23'
+modified: '2026-05-23'
+
+domains:
+- name: Organizations
+  terms:
+  - term: Temple Health
+    description: Common brand name for the Temple University Health System.
+  - term: Temple University Health System
+    description: Philadelphia-based academic health system anchored at Temple University Hospital.
+  - term: Temple University Hospital (TUH)
+    description: Flagship academic medical center; FHIR endpoint host.
+  - term: Temple University Hospital — Jeanes Campus
+    description: Northeast Philadelphia community hospital campus.
+  - term: Temple University Hospital — Episcopal Campus
+    description: Kensington-area campus focused on behavioral health and emergency services.
+  - term: Temple University Hospital — Northeastern Campus
+    description: Outpatient and inpatient services in Northeast Philadelphia.
+  - term: Temple Women & Families Hospital
+    description: Women, maternity, and family-care hospital in the system.
+  - term: Temple Health — Chestnut Hill Hospital
+    description: Community hospital in northwest Philadelphia.
+  - term: Fox Chase Cancer Center
+    description: NCI-designated comprehensive cancer center within Temple Health.
+  - term: Temple Faculty Physicians
+    description: Multispecialty group practice of Lewis Katz School of Medicine faculty.
+  - term: Lewis Katz School of Medicine at Temple University
+    description: Academic medical school affiliated with Temple Health.
+  - term: Temple University
+    description: Parent university of the Lewis Katz School of Medicine.
+  - term: myTempleHealth
+    description: Patient-facing Epic MyChart deployment for Temple Health.
+
+- name: Standards and Implementation Guides
+  terms:
+  - term: HL7 FHIR R4 (4.0.1)
+    description: Healthcare data interoperability standard used at epicaccess.templehealth.org.
+  - term: HL7 FHIR DSTU2 (1.0.2)
+    description: Legacy FHIR baseline still exposed at the Temple Health DSTU2 endpoint.
+  - term: US Core 6.1.0
+    description: HL7 US Core Implementation Guide for USCDI data classes.
+  - term: USCDI
+    description: ONC's United States Core Data for Interoperability dataset.
+  - term: SMART App Launch
+    description: OAuth 2.0-based launch framework for FHIR apps.
+  - term: HL7 FHIR Bulk Data Access
+    description: Asynchronous group-level export protocol (ndjson).
+
+- name: Regulations
+  terms:
+  - term: CMS-9115-F
+    description: CMS Interoperability and Patient Access Final Rule (Patient Access API).
+  - term: 21st Century Cures Act
+    description: ONC information-blocking rule that mandates patient access to electronic health information via FHIR.
+  - term: HIPAA
+    description: Health Insurance Portability and Accountability Act privacy and security rules governing PHI.
+  - term: CMS Hospital Price Transparency Final Rule (45 CFR 180)
+    description: Requires hospitals to publish machine-readable standard-charges files.
+
+- name: FHIR Resources (R4)
+  terms:
+  - term: Patient
+  - term: Observation
+  - term: Condition
+  - term: Encounter
+  - term: MedicationRequest
+  - term: AllergyIntolerance
+  - term: DocumentReference
+  - term: Procedure
+  - term: DiagnosticReport
+  - term: Immunization
+  - term: CarePlan
+  - term: Goal
+
+- name: FHIR Resources (DSTU2)
+  terms:
+  - term: AllergyIntolerance
+  - term: Binary
+  - term: CarePlan
+  - term: Condition
+  - term: Device
+  - term: DiagnosticReport
+  - term: DocumentReference
+  - term: FamilyMemberHistory
+  - term: Goal
+  - term: Immunization
+  - term: Medication
+  - term: MedicationOrder
+  - term: MedicationStatement
+  - term: Observation
+  - term: Patient
+  - term: Practitioner
+  - term: Procedure
+
+- name: Authentication and Endpoints
+  terms:
+  - term: Temple Health FHIR R4 Base
+    value: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+  - term: Temple Health FHIR DSTU2 Base
+    value: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/
+  - term: Temple Health OAuth 2.0 Authorize
+    value: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+  - term: Temple Health OAuth 2.0 Token
+    value: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  - term: Temple Health SMART Configuration
+    value: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+  - term: myTempleHealth Portal
+    value: https://my.templehealth.org/MyChartPRD/Authentication/Login
+  - term: Epic Endpoint Directory (R4)
+    value: https://open.epic.com/Endpoints/R4
+  - term: Epic Endpoint Directory (DSTU2)
+    value: https://open.epic.com/Endpoints/DSTU2
+  - term: Epic App Registration
+    value: https://fhir.epic.com/Developer/Apps
+
+- name: Tags
+  terms:
+  - term: Academic Medical Center
+  - term: Patient Access
+  - term: Hospital System
+  - term: Healthcare
+  - term: Interoperability
+  - term: Epic
+  - term: MyChart
+  - term: Price Transparency
+  - term: NCI-Designated Cancer Center
