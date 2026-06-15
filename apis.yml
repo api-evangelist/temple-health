@@ -2,25 +2,25 @@ aid: temple-health
 url: https://raw.githubusercontent.com/api-evangelist/temple-health/refs/heads/main/apis.yml
 name: Temple Health
 tags:
-- Academic Medical Center
-- CMS Interoperability
-- Cures Act
-- DSTU2
-- Epic
-- FHIR
-- Fox Chase Cancer Center
-- HL7
-- Healthcare
-- Hospital System
-- MyChart
-- OAuth 2.0
-- Patient Access
-- Price Transparency
-- R4
-- SMART on FHIR
-- Temple University
-- US Core
-- USCDI
+  - Academic Medical Center
+  - CMS Interoperability
+  - Cures Act
+  - DSTU2
+  - Epic
+  - FHIR
+  - Fox Chase Cancer Center
+  - HL7
+  - Healthcare
+  - Hospital System
+  - MyChart
+  - OAuth 2.0
+  - Patient Access
+  - Price Transparency
+  - R4
+  - SMART on FHIR
+  - Temple University
+  - US Core
+  - USCDI
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
@@ -29,233 +29,211 @@ modified: '2026-05-23'
 position: Consumer
 specificationVersion: '0.19'
 description: >-
-  Temple University Health System (Temple Health) is the Philadelphia-based
-  academic health system affiliated with the Lewis Katz School of Medicine at
-  Temple University. It operates Temple University Hospital (Main Campus,
-  Jeanes, Episcopal, Northeastern, Women & Families), Temple Health Chestnut
-  Hill Hospital, Fox Chase Cancer Center, and outpatient sites across the
-  Philadelphia region. Its patient-facing electronic health record runs on
-  Epic, branded myTempleHealth (MyChart), with CMS-mandated HL7 FHIR APIs
-  published at epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4 (and a
-  legacy DSTU2 endpoint at the same host) that expose USCDI-aligned clinical
-  resources to third-party patient-access applications via SMART on FHIR and
-  OAuth 2.0. Temple Health does not publish a separate commercial developer
-  program; its API surface is regulatory-mandated and free at point of use.
+  Temple University Health System (Temple Health) is the Philadelphia-based academic health system affiliated with the
+  Lewis Katz School of Medicine at Temple University. It operates Temple University Hospital (Main Campus, Jeanes,
+  Episcopal, Northeastern, Women & Families), Temple Health Chestnut Hill Hospital, Fox Chase Cancer Center, and
+  outpatient sites across the Philadelphia region. Its patient-facing electronic health record runs on Epic, branded
+  myTempleHealth (MyChart), with CMS-mandated HL7 FHIR APIs published at
+  epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4 (and a legacy DSTU2 endpoint at the same host) that expose
+  USCDI-aligned clinical resources to third-party patient-access applications via SMART on FHIR and OAuth 2.0. Temple
+  Health does not publish a separate commercial developer program; its API surface is regulatory-mandated and free at
+  point of use.
 common:
-- type: Website
-  url: https://www.templehealth.org/
-- type: PatientPortal
-  url: https://my.templehealth.org/MyChartPRD/Authentication/Login
-- type: Locations
-  url: https://www.templehealth.org/locations
-- type: About
-  url: https://www.templehealth.org/about
-- type: PriceTransparency
-  url: https://www.templehealth.org/pricing-disclaimer
-- type: FinancialAssistance
-  url: https://www.templehealth.org/financial-assistance
-- type: PrivacyPolicy
-  url: https://www.templehealth.org/web-privacy-policy
-- type: NonDiscriminationNotice
-  url: https://www.templehealth.org/section-1557-notice-non-discrimination
-- type: University
-  url: https://www.temple.edu/
-- type: MedicalSchool
-  url: https://medicine.temple.edu/
-- type: CancerCenter
-  url: https://www.foxchase.org/
-- type: GitHub
-  url: https://github.com/Temple-Health
-- type: Compliance
-  name: CMS Interoperability and Patient Access Final Rule (CMS-9115-F)
-  url: https://www.cms.gov/Regulations-and-Guidance/Guidance/Interoperability/index
-- type: Compliance
-  name: 21st Century Cures Act ONC Final Rule
-  url: https://www.healthit.gov/curesrule/
-- type: JSONLD
-  url: json-ld/temple-health-context.jsonld
-- type: Vocabulary
-  url: vocabulary/temple-health-vocabulary.yml
-- type: JSONSchema
-  url: json-schema/temple-health-patient-schema.json
-- type: JSONSchema
-  url: json-schema/temple-health-observation-schema.json
-- type: JSONStructure
-  url: json-structure/temple-health-fhir-encounter-structure.json
-- type: Plans
-  url: plans/temple-health-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/temple-health-rate-limits.yml
-- type: FinOps
-  url: finops/temple-health-finops.yml
-apis:
-- aid: temple-health:temple-health-fhir-r4-api
-  name: Temple Health FHIR R4 API
-  tags:
-  - CMS Interoperability
-  - Cures Act
-  - Epic
-  - FHIR
-  - HL7
-  - Patient Access
-  - R4
-  - SMART on FHIR
-  - US Core
-  - USCDI
-  humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
-  baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
-  description: >-
-    The Temple Health FHIR R4 API is Temple University Health System's
-    CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR
-    Release 4.0.1 endpoint powered by Epic's August 2025 release. It is
-    listed in Epic's public R4 endpoint registry under the organization
-    "TempleHealth" and exposes USCDI-aligned clinical resources — including
-    Patient, Observation, Condition, Encounter, MedicationRequest,
-    AllergyIntolerance, DiagnosticReport, DocumentReference, Procedure,
-    Immunization, and AllergyIntolerance — to third-party patient-access
-    applications using SMART on FHIR and OAuth 2.0 with standalone-patient
-    and EHR launch contexts. The same endpoint covers the Temple University
-    Hospital campuses (Main, Jeanes, Episcopal, Northeastern, Women &
-    Families), Temple Health Chestnut Hill Hospital, and Fox Chase Cancer
-    Center under one Epic instance. Both XML and JSON FHIR payloads are
-    supported.
-  properties:
-  - type: CapabilityStatement
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
-  - type: SmartConfiguration
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
-  - type: Authorization
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
-  - type: Token
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
-  - type: Documentation
-    url: https://fhir.epic.com/Documentation
-  - type: AppRegistration
-    url: https://fhir.epic.com/Developer/Apps
-  - type: DeveloperPortal
-    url: https://fhir.epic.com/
-  - type: EndpointDirectory
-    url: https://open.epic.com/Endpoints/R4
-  - type: ImplementationGuide
-    name: HL7 US Core 6.1.0
-    url: https://hl7.org/fhir/us/core/STU6.1/
-  - type: ImplementationGuide
-    name: HL7 SMART App Launch
-    url: https://hl7.org/fhir/smart-app-launch/
-  - type: ImplementationGuide
-    name: HL7 FHIR Bulk Data Access
-    url: https://hl7.org/fhir/uv/bulkdata/
-  - type: OpenAPI
-    url: openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
-  - type: SpectralRuleset
-    url: rules/temple-health-temple-health-fhir-r4-rules.yml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-patient.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-observation.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-condition.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-medication-request.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-allergy-intolerance.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-encounter.yaml
-  - type: NaftikoCapability
-    url: capabilities/temple-health-fhir-r4-document-reference.yaml
-- aid: temple-health:temple-health-fhir-dstu2-api
-  name: Temple Health FHIR DSTU2 API
-  tags:
-  - DSTU2
-  - Epic
-  - FHIR
-  - Legacy
-  - SMART on FHIR
-  humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/
-  baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
-  description: >-
-    The legacy Temple Health DSTU2 FHIR endpoint listed in Epic's public
-    DSTU2 endpoint registry under the organization "TempleHealth". It
-    remains available for backward compatibility with older SMART on FHIR
-    apps written against the FHIR DSTU2 (1.0.2) baseline that pre-dates
-    the CMS Interoperability and Patient Access mandate; new integrations
-    should target the R4 endpoint instead. Supported resources include
-    AllergyIntolerance, Binary, CarePlan, Condition, Device,
-    DiagnosticReport, DocumentReference, FamilyMemberHistory, Goal,
-    Immunization, Medication, MedicationOrder, MedicationStatement,
-    Observation, Patient, Practitioner, and Procedure.
-  properties:
-  - type: CapabilityStatement
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/metadata
-  - type: Authorization
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
-  - type: Token
-    url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
-  - type: Documentation
-    url: https://fhir.epic.com/Specifications
-  - type: EndpointDirectory
-    url: https://open.epic.com/Endpoints/DSTU2
-- aid: temple-health:mytemplehealth-mychart
-  name: myTempleHealth MyChart Patient Portal
-  tags:
-  - Epic
-  - MyChart
-  - Patient Portal
-  humanURL: https://my.templehealth.org/MyChartPRD/Authentication/Login
-  baseURL: https://my.templehealth.org/MyChartPRD/
-  description: >-
-    myTempleHealth is the patient-facing Epic MyChart deployment used by
-    Temple Health patients to view test results, message providers,
-    request prescription renewals, schedule appointments, pay bills, and
-    grant third-party patient-access apps consent to retrieve their data
-    through Temple Health's underlying FHIR R4 API.
-  properties:
+  - type: Website
+    url: https://www.templehealth.org/
   - type: PatientPortal
     url: https://my.templehealth.org/MyChartPRD/Authentication/Login
-  - type: Vendor
-    name: Epic Systems MyChart
-    url: https://www.epic.com/software/mychart/
-- aid: temple-health:price-transparency-mrf
-  name: Temple Health Hospital Price Transparency Machine-Readable Files
-  tags:
-  - CMS Price Transparency
-  - CSV
-  - Hospital Charges
-  - Open Data
-  humanURL: https://www.templehealth.org/pricing-disclaimer
-  baseURL: https://www.templehealth.org/sites/default/files/file/
-  description: >-
-    The Hospital Price Transparency dataset Temple Health publishes per
-    the CMS Hospital Price Transparency Final Rule (45 CFR 180). Each
-    Temple Health hospital files a CSV of standard charges (gross, payer-
-    specific negotiated, de-identified min/max, discounted cash). One
-    file is published per hospital campus and refreshed periodically
-    under the YYYY-MM-prefixed path on templehealth.org.
-  properties:
-  - type: DataFile
-    name: Temple University Hospital — Main Campus Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital-inc-main-campus_standardcharges.csv
-  - type: DataFile
-    name: Temple University Hospital — Jeanes Campus Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--jeanes-campus_standardcharges.csv
-  - type: DataFile
-    name: Temple University Hospital — Northeastern Campus Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--northeastern-campus_standardcharges.csv
-  - type: DataFile
-    name: Temple University Hospital — Episcopal Campus Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--episcopal-campus_standardcharges.csv
-  - type: DataFile
-    name: Temple University Hospital — Fox Chase Campus Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--fox-chase-campus_standardcharges.csv
-  - type: DataFile
-    name: Fox Chase Cancer Center Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/231352156_fox-chase-cancer-center_standardcharges.csv
-  - type: DataFile
-    name: Temple Health — Chestnut Hill Hospital Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/883577015_temple-health--chestnut-hill-hospital_standardcharges.csv
-  - type: DataFile
-    name: Temple Women & Families Hospital Standard Charges
-    url: https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-women--families-hospital_standardcharges.csv
+  - type: Locations
+    url: https://www.templehealth.org/locations
+  - type: About
+    url: https://www.templehealth.org/about
+  - type: PriceTransparency
+    url: https://www.templehealth.org/pricing-disclaimer
+  - type: FinancialAssistance
+    url: https://www.templehealth.org/financial-assistance
+  - type: PrivacyPolicy
+    url: https://www.templehealth.org/web-privacy-policy
+  - type: NonDiscriminationNotice
+    url: https://www.templehealth.org/section-1557-notice-non-discrimination
+  - type: University
+    url: https://www.temple.edu/
+  - type: MedicalSchool
+    url: https://medicine.temple.edu/
+  - type: CancerCenter
+    url: https://www.foxchase.org/
+  - type: GitHub
+    url: https://github.com/Temple-Health
   - type: Compliance
-    name: CMS Hospital Price Transparency Final Rule (45 CFR 180)
-    url: https://www.cms.gov/hospital-price-transparency
+    name: CMS Interoperability and Patient Access Final Rule (CMS-9115-F)
+    url: https://www.cms.gov/Regulations-and-Guidance/Guidance/Interoperability/index
+  - type: Compliance
+    name: 21st Century Cures Act ONC Final Rule
+    url: https://www.healthit.gov/curesrule/
+  - type: JSONLD
+    url: json-ld/temple-health-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/temple-health-vocabulary.yml
+  - type: JSONSchema
+    url: json-schema/temple-health-patient-schema.json
+  - type: JSONSchema
+    url: json-schema/temple-health-observation-schema.json
+  - type: JSONStructure
+    url: json-structure/temple-health-fhir-encounter-structure.json
+  - type: Plans
+    url: plans/temple-health-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/temple-health-rate-limits.yml
+  - type: FinOps
+    url: finops/temple-health-finops.yml
+apis:
+  - aid: temple-health:temple-health-fhir-r4-api
+    name: Temple Health FHIR R4 API
+    tags:
+      - CMS Interoperability
+      - Cures Act
+      - Epic
+      - FHIR
+      - HL7
+      - Patient Access
+      - R4
+      - SMART on FHIR
+      - US Core
+      - USCDI
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    description: >-
+      The Temple Health FHIR R4 API is Temple University Health System's CMS Interoperability and Patient Access
+      (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 endpoint powered by Epic's August 2025 release. It is listed in
+      Epic's public R4 endpoint registry under the organization "TempleHealth" and exposes USCDI-aligned clinical
+      resources — including Patient, Observation, Condition, Encounter, MedicationRequest, AllergyIntolerance,
+      DiagnosticReport, DocumentReference, Procedure, Immunization, and AllergyIntolerance — to third-party
+      patient-access applications using SMART on FHIR and OAuth 2.0 with standalone-patient and EHR launch contexts. The
+      same endpoint covers the Temple University Hospital campuses (Main, Jeanes, Episcopal, Northeastern, Women &
+      Families), Temple Health Chestnut Hill Hospital, and Fox Chase Cancer Center under one Epic instance. Both XML and
+      JSON FHIR payloads are supported.
+    properties:
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        name: HL7 US Core 6.1.0
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        name: HL7 SMART App Launch
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        name: HL7 FHIR Bulk Data Access
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: OpenAPI
+        url: openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-fhir-dstu2-api
+    name: Temple Health FHIR DSTU2 API
+    tags:
+      - DSTU2
+      - Epic
+      - FHIR
+      - Legacy
+      - SMART on FHIR
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
+    description: >-
+      The legacy Temple Health DSTU2 FHIR endpoint listed in Epic's public DSTU2 endpoint registry under the
+      organization "TempleHealth". It remains available for backward compatibility with older SMART on FHIR apps written
+      against the FHIR DSTU2 (1.0.2) baseline that pre-dates the CMS Interoperability and Patient Access mandate; new
+      integrations should target the R4 endpoint instead. Supported resources include AllergyIntolerance, Binary,
+      CarePlan, Condition, Device, DiagnosticReport, DocumentReference, FamilyMemberHistory, Goal, Immunization,
+      Medication, MedicationOrder, MedicationStatement, Observation, Patient, Practitioner, and Procedure.
+    properties:
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/metadata
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Specifications
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/DSTU2
+  - aid: temple-health:mytemplehealth-mychart
+    name: myTempleHealth MyChart Patient Portal
+    tags:
+      - Epic
+      - MyChart
+      - Patient Portal
+    humanURL: https://my.templehealth.org/MyChartPRD/Authentication/Login
+    baseURL: https://my.templehealth.org/MyChartPRD/
+    description: >-
+      myTempleHealth is the patient-facing Epic MyChart deployment used by Temple Health patients to view test results,
+      message providers, request prescription renewals, schedule appointments, pay bills, and grant third-party
+      patient-access apps consent to retrieve their data through Temple Health's underlying FHIR R4 API.
+    properties:
+      - type: PatientPortal
+        url: https://my.templehealth.org/MyChartPRD/Authentication/Login
+      - type: Vendor
+        name: Epic Systems MyChart
+        url: https://www.epic.com/software/mychart/
+  - aid: temple-health:price-transparency-mrf
+    name: Temple Health Hospital Price Transparency Machine-Readable Files
+    tags:
+      - CMS Price Transparency
+      - CSV
+      - Hospital Charges
+      - Open Data
+    humanURL: https://www.templehealth.org/pricing-disclaimer
+    baseURL: https://www.templehealth.org/sites/default/files/file/
+    description: >-
+      The Hospital Price Transparency dataset Temple Health publishes per the CMS Hospital Price Transparency Final Rule
+      (45 CFR 180). Each Temple Health hospital files a CSV of standard charges (gross, payer- specific negotiated,
+      de-identified min/max, discounted cash). One file is published per hospital campus and refreshed periodically
+      under the YYYY-MM-prefixed path on templehealth.org.
+    properties:
+      - type: DataFile
+        name: Temple University Hospital — Main Campus Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital-inc-main-campus_standardcharges.csv
+      - type: DataFile
+        name: Temple University Hospital — Jeanes Campus Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--jeanes-campus_standardcharges.csv
+      - type: DataFile
+        name: Temple University Hospital — Northeastern Campus Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--northeastern-campus_standardcharges.csv
+      - type: DataFile
+        name: Temple University Hospital — Episcopal Campus Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--episcopal-campus_standardcharges.csv
+      - type: DataFile
+        name: Temple University Hospital — Fox Chase Campus Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--fox-chase-campus_standardcharges.csv
+      - type: DataFile
+        name: Fox Chase Cancer Center Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/231352156_fox-chase-cancer-center_standardcharges.csv
+      - type: DataFile
+        name: Temple Health — Chestnut Hill Hospital Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/883577015_temple-health--chestnut-hill-hospital_standardcharges.csv
+      - type: DataFile
+        name: Temple Women & Families Hospital Standard Charges
+        url: >-
+          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-women--families-hospital_standardcharges.csv
+      - type: Compliance
+        name: CMS Hospital Price Transparency Final Rule (45 CFR 180)
+        url: https://www.cms.gov/hospital-price-transparency
