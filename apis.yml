@@ -39,6 +39,8 @@ description: >-
   Health does not publish a separate commercial developer program; its API surface is regulatory-mandated and free at
   point of use.
 common:
+  - type: DomainSecurity
+    url: security/temple-health-domain-security.yml
   - type: Authentication
     url: authentication/temple-health-authentication.yml
   - type: OAuthScopes
