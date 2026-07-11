@@ -39,6 +39,10 @@ description: >-
   Health does not publish a separate commercial developer program; its API surface is regulatory-mandated and free at
   point of use.
 common:
+  - type: Authentication
+    url: authentication/temple-health-authentication.yml
+  - type: OAuthScopes
+    url: scopes/temple-health-scopes.yml
   - type: Website
     url: https://www.templehealth.org/
   - type: PatientPortal
@@ -85,6 +89,8 @@ common:
     url: rate-limits/temple-health-rate-limits.yml
   - type: FinOps
     url: finops/temple-health-finops.yml
+  - url: https://www.templehealth.org/about/news
+    type: Blog
 apis:
   - aid: temple-health:temple-health-fhir-r4-api
     name: Temple Health FHIR R4 API
