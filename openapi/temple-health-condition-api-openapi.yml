@@ -1,0 +1,119 @@
+openapi: 3.0.3
+info:
+  title: Temple Health FHIR R4 Allergy Intolerance Condition API
+  description: OpenAPI surface for the Temple Health FHIR R4 endpoint, Temple University Health System's CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API powered by Epic's August 2025 release. Exposes USCDI-aligned clinical resources to third-party patient-access applications under SMART on FHIR / OAuth 2.0. Only a subset of the 80+ supported FHIR resource types is documented here — refer to the live CapabilityStatement for the full surface.
+  version: 4.0.1
+  contact:
+    name: Epic on FHIR
+    url: https://fhir.epic.com/
+  license:
+    name: HL7 FHIR License
+    url: https://www.hl7.org/fhir/license.html
+servers:
+- url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+  description: Temple Health FHIR R4 production endpoint
+security:
+- smartOnFhir:
+  - patient/Patient.read
+  - patient/Observation.read
+  - patient/Condition.read
+  - patient/Encounter.read
+  - patient/MedicationRequest.read
+  - patient/AllergyIntolerance.read
+  - patient/DocumentReference.read
+  - launch
+  - openid
+  - fhirUser
+  - offline_access
+tags:
+- name: Condition
+  description: Detailed information about conditions, problems, or diagnoses.
+paths:
+  /Condition:
+    get:
+      tags:
+      - Condition
+      summary: Search Condition
+      description: Search Condition resources for a patient (problems, encounter diagnoses, health concerns).
+      operationId: searchCondition
+      parameters:
+      - $ref: '#/components/parameters/PatientReference'
+      - name: category
+        in: query
+        description: US Core Condition category (problem-list-item, encounter-diagnosis, health-concern).
+        schema:
+          type: string
+      - name: clinical-status
+        in: query
+        description: Clinical status (active, recurrence, relapse, inactive, remission, resolved).
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Count'
+      responses:
+        '200':
+          description: Bundle of Condition resources
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/Bundle'
+components:
+  schemas:
+    Bundle:
+      type: object
+      description: HL7 FHIR Bundle resource (searchset).
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - Bundle
+        type:
+          type: string
+          enum:
+          - searchset
+        total:
+          type: integer
+        entry:
+          type: array
+          items:
+            type: object
+  parameters:
+    PatientReference:
+      name: patient
+      in: query
+      required: true
+      description: Reference to the Patient (id or Patient/{id}).
+      schema:
+        type: string
+    Count:
+      name: _count
+      in: query
+      description: Number of resources to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+  securitySchemes:
+    smartOnFhir:
+      type: oauth2
+      description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+          tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+          scopes:
+            launch: EHR launch context for provider-launched apps
+            openid: OpenID Connect authentication
+            fhirUser: Identity of the user launching the app
+            offline_access: Refresh token for long-lived access
+            patient/Patient.read: Read the launching patient's demographics
+            patient/Observation.read: Read the launching patient's observations
+            patient/Condition.read: Read the launching patient's conditions
+            patient/Encounter.read: Read the launching patient's encounters
+            patient/MedicationRequest.read: Read the launching patient's medication requests
+            patient/AllergyIntolerance.read: Read the launching patient's allergies
+            patient/DocumentReference.read: Read the launching patient's documents
+            user/Patient.read: Read Patient as the launching user
+            system/Patient.read: System-level Patient read (Bulk Data)
+externalDocs:
+  description: HL7 FHIR R4 Specification
+  url: https://hl7.org/fhir/R4/
