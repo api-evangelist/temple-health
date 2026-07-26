@@ -102,12 +102,6 @@ The legacy Temple Health DSTU2 FHIR endpoint listed in Epic's public DSTU2 endpo
 - [Postman Collection](collections/temple-health-temple-health-fhir-r4-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
 - [Open Collection](collections/temple-health-temple-health-fhir-r4-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-### myTempleHealth MyChart Patient Portal
-
-myTempleHealth is the patient-facing Epic MyChart deployment used by Temple Health patients to view test results, message providers, request prescription renewals, schedule appointments, pay bills, and grant third-party patient-access apps consent to retrieve their data through Temple Health's underlying FHIR R4 API.
-
-- **Human URL:** [https://my.templehealth.org/MyChartPRD/Authentication/Login](https://my.templehealth.org/MyChartPRD/Authentication/Login)
-- **Base URL:** `https://my.templehealth.org/MyChartPRD/`
 
 #### Tags
 
@@ -122,12 +116,6 @@ myTempleHealth is the patient-facing Epic MyChart deployment used by Temple Heal
 - [Postman Collection](collections/temple-health-temple-health-fhir-r4-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
 - [Open Collection](collections/temple-health-temple-health-fhir-r4-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-### Temple Health Hospital Price Transparency Machine-Readable Files
-
-The Hospital Price Transparency dataset Temple Health publishes per the CMS Hospital Price Transparency Final Rule (45 CFR 180). Each Temple Health hospital files a CSV of standard charges (gross, payer- specific negotiated, de-identified min/max, discounted cash). One file is published per hospital campus and refreshed periodically under the YYYY-MM-prefixed path on templehealth.org.
-
-- **Human URL:** [https://www.templehealth.org/pricing-disclaimer](https://www.templehealth.org/pricing-disclaimer)
-- **Base URL:** `https://www.templehealth.org/sites/default/files/file/`
 
 #### Tags
 

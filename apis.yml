@@ -22,10 +22,23 @@ tags:
   - US Core
   - USCDI
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+    - plans
+    - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/temple-health.png
 access: 3rd-Party
 created: '2026-05-23'
-modified: '2026-05-23'
+modified: '2026-07-25'
 position: Consumer
 specificationVersion: '0.19'
 description: >-
@@ -96,36 +109,50 @@ common:
   - url: https://www.templehealth.org/about/news
     type: Blog
 apis:
-  - aid: temple-health:temple-health-fhir-r4-api
-    name: Temple Health FHIR R4 API
+  - aid: temple-health:temple-health-fhir-dstu2-api
+    name: Temple Health FHIR DSTU2 API
     tags:
-      - CMS Interoperability
-      - Cures Act
+      - DSTU2
       - Epic
       - FHIR
-      - HL7
-      - Patient Access
-      - R4
+      - Legacy
       - SMART on FHIR
-      - US Core
-      - USCDI
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
+    description: >-
+      The legacy Temple Health DSTU2 FHIR endpoint listed in Epic's public DSTU2 endpoint registry under
+      the organization "TempleHealth". It remains available for backward compatibility with older SMART
+      on FHIR apps written against the FHIR DSTU2 (1.0.2) baseline that pre-dates the CMS Interoperability
+      and Patient Access mandate; new integrations should target the R4 endpoint instead. Supported resources
+      include AllergyIntolerance, Binary, CarePlan, Condition, Device, DiagnosticReport, DocumentReference,
+      FamilyMemberHistory, Goal, Immunization, Medication, MedicationOrder, MedicationStatement, Observation,
+      Patient, Practitioner, and Procedure.
+    properties:
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/metadata
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Specifications
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/DSTU2
+  - aid: temple-health:temple-health-allergy-intolerance-api
+    name: Temple Health Allergy Intolerance API
+    description: Risk of harmful or undesirable physiological response to a substance.
     humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
-    description: >-
-      The Temple Health FHIR R4 API is Temple University Health System's CMS Interoperability and Patient Access
-      (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 endpoint powered by Epic's August 2025 release. It is listed in
-      Epic's public R4 endpoint registry under the organization "TempleHealth" and exposes USCDI-aligned clinical
-      resources — including Patient, Observation, Condition, Encounter, MedicationRequest, AllergyIntolerance,
-      DiagnosticReport, DocumentReference, Procedure, Immunization, and AllergyIntolerance — to third-party
-      patient-access applications using SMART on FHIR and OAuth 2.0 with standalone-patient and EHR launch contexts. The
-      same endpoint covers the Temple University Hospital campuses (Main, Jeanes, Episcopal, Northeastern, Women &
-      Families), Temple Health Chestnut Hill Hospital, and Fox Chase Cancer Center under one Epic instance. Both XML and
-      JSON FHIR payloads are supported.
+    tags:
+      - Allergy Intolerance
     properties:
+      - type: OpenAPI
+        url: openapi/temple-health-allergy-intolerance-api-openapi.yml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
-        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+        url: >-
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
       - type: Authorization
         url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
       - type: Token
@@ -139,111 +166,291 @@ apis:
       - type: EndpointDirectory
         url: https://open.epic.com/Endpoints/R4
       - type: ImplementationGuide
-        name: HL7 US Core 6.1.0
         url: https://hl7.org/fhir/us/core/STU6.1/
       - type: ImplementationGuide
-        name: HL7 SMART App Launch
         url: https://hl7.org/fhir/smart-app-launch/
       - type: ImplementationGuide
-        name: HL7 FHIR Bulk Data Access
         url: https://hl7.org/fhir/uv/bulkdata/
-      - type: OpenAPI
-        url: openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
       - type: SpectralRuleset
         url: rules/temple-health-temple-health-fhir-r4-rules.yml
-  - aid: temple-health:temple-health-fhir-dstu2-api
-    name: Temple Health FHIR DSTU2 API
+  - aid: temple-health:temple-health-bulk-data-api
+    name: Temple Health Bulk Data API
+    description: HL7 FHIR Bulk Data Access Group-level export.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
-      - DSTU2
-      - Epic
-      - FHIR
-      - Legacy
-      - SMART on FHIR
-    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/
-    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
-    description: >-
-      The legacy Temple Health DSTU2 FHIR endpoint listed in Epic's public DSTU2 endpoint registry under the
-      organization "TempleHealth". It remains available for backward compatibility with older SMART on FHIR apps written
-      against the FHIR DSTU2 (1.0.2) baseline that pre-dates the CMS Interoperability and Patient Access mandate; new
-      integrations should target the R4 endpoint instead. Supported resources include AllergyIntolerance, Binary,
-      CarePlan, Condition, Device, DiagnosticReport, DocumentReference, FamilyMemberHistory, Goal, Immunization,
-      Medication, MedicationOrder, MedicationStatement, Observation, Patient, Practitioner, and Procedure.
+      - Bulk Data
     properties:
+      - type: OpenAPI
+        url: openapi/temple-health-bulk-data-api-openapi.yml
       - type: CapabilityStatement
-        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2/metadata
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
+        url: >-
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
       - type: Authorization
         url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
       - type: Token
         url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
       - type: Documentation
-        url: https://fhir.epic.com/Specifications
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
       - type: EndpointDirectory
-        url: https://open.epic.com/Endpoints/DSTU2
-  - aid: temple-health:mytemplehealth-mychart
-    name: myTempleHealth MyChart Patient Portal
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-condition-api
+    name: Temple Health Condition API
+    description: Detailed information about conditions, problems, or diagnoses.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
-      - Epic
-      - MyChart
-      - Patient Portal
-    humanURL: https://my.templehealth.org/MyChartPRD/Authentication/Login
-    baseURL: https://my.templehealth.org/MyChartPRD/
-    description: >-
-      myTempleHealth is the patient-facing Epic MyChart deployment used by Temple Health patients to view test results,
-      message providers, request prescription renewals, schedule appointments, pay bills, and grant third-party
-      patient-access apps consent to retrieve their data through Temple Health's underlying FHIR R4 API.
+      - Condition
     properties:
-      - type: PatientPortal
-        url: https://my.templehealth.org/MyChartPRD/Authentication/Login
-      - type: Vendor
-        name: Epic Systems MyChart
-        url: https://www.epic.com/software/mychart/
-  - aid: temple-health:price-transparency-mrf
-    name: Temple Health Hospital Price Transparency Machine-Readable Files
+      - type: OpenAPI
+        url: openapi/temple-health-condition-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
+        url: >-
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-document-reference-api
+    name: Temple Health Document Reference API
+    description: A reference to a document, often a CCDA or clinical note.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
-      - CMS Price Transparency
-      - CSV
-      - Hospital Charges
-      - Open Data
-    humanURL: https://www.templehealth.org/pricing-disclaimer
-    baseURL: https://www.templehealth.org/sites/default/files/file/
-    description: >-
-      The Hospital Price Transparency dataset Temple Health publishes per the CMS Hospital Price Transparency Final Rule
-      (45 CFR 180). Each Temple Health hospital files a CSV of standard charges (gross, payer- specific negotiated,
-      de-identified min/max, discounted cash). One file is published per hospital campus and refreshed periodically
-      under the YYYY-MM-prefixed path on templehealth.org.
+      - Document Reference
     properties:
-      - type: DataFile
-        name: Temple University Hospital — Main Campus Standard Charges
+      - type: OpenAPI
+        url: openapi/temple-health-document-reference-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital-inc-main-campus_standardcharges.csv
-      - type: DataFile
-        name: Temple University Hospital — Jeanes Campus Standard Charges
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-encounter-api
+    name: Temple Health Encounter API
+    description: An interaction between a patient and healthcare provider(s).
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    tags:
+      - Encounter
+    properties:
+      - type: OpenAPI
+        url: openapi/temple-health-encounter-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--jeanes-campus_standardcharges.csv
-      - type: DataFile
-        name: Temple University Hospital — Northeastern Campus Standard Charges
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-medication-request-api
+    name: Temple Health Medication Request API
+    description: >-
+      An order or request for both supply of the medication and the instructions for administration.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    tags:
+      - Medication Request
+    properties:
+      - type: OpenAPI
+        url: openapi/temple-health-medication-request-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--northeastern-campus_standardcharges.csv
-      - type: DataFile
-        name: Temple University Hospital — Episcopal Campus Standard Charges
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-metadata-api
+    name: Temple Health Metadata API
+    description: FHIR conformance and SMART configuration discovery.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    tags:
+      - Metadata
+    properties:
+      - type: OpenAPI
+        url: openapi/temple-health-metadata-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--episcopal-campus_standardcharges.csv
-      - type: DataFile
-        name: Temple University Hospital — Fox Chase Campus Standard Charges
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-observation-api
+    name: Temple Health Observation API
+    description: Measurements and simple assertions made about a patient.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    tags:
+      - Observation
+    properties:
+      - type: OpenAPI
+        url: openapi/temple-health-observation-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-university-hospital--fox-chase-campus_standardcharges.csv
-      - type: DataFile
-        name: Fox Chase Cancer Center Standard Charges
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
+  - aid: temple-health:temple-health-patient-api
+    name: Temple Health Patient API
+    description: Demographics and other administrative information about an individual receiving care.
+    humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+    tags:
+      - Patient
+    properties:
+      - type: OpenAPI
+        url: openapi/temple-health-patient-api-openapi.yml
+      - type: CapabilityStatement
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+      - type: SmartConfiguration
         url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/231352156_fox-chase-cancer-center_standardcharges.csv
-      - type: DataFile
-        name: Temple Health — Chestnut Hill Hospital Standard Charges
-        url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/883577015_temple-health--chestnut-hill-hospital_standardcharges.csv
-      - type: DataFile
-        name: Temple Women & Families Hospital Standard Charges
-        url: >-
-          https://www.templehealth.org/sites/default/files/file/2026-04/232825878_temple-women--families-hospital_standardcharges.csv
-      - type: Compliance
-        name: CMS Hospital Price Transparency Final Rule (45 CFR 180)
-        url: https://www.cms.gov/hospital-price-transparency
+          https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+      - type: Authorization
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+      - type: Token
+        url: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+      - type: Documentation
+        url: https://fhir.epic.com/Documentation
+      - type: AppRegistration
+        url: https://fhir.epic.com/Developer/Apps
+      - type: DeveloperPortal
+        url: https://fhir.epic.com/
+      - type: EndpointDirectory
+        url: https://open.epic.com/Endpoints/R4
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/us/core/STU6.1/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/smart-app-launch/
+      - type: ImplementationGuide
+        url: https://hl7.org/fhir/uv/bulkdata/
+      - type: SpectralRuleset
+        url: rules/temple-health-temple-health-fhir-r4-rules.yml
