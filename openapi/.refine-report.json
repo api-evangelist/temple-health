@@ -1,0 +1,30 @@
+{
+  "provider": "temple-health",
+  "sources": [
+    "temple-health-allergy-intolerance-api-openapi.yml",
+    "temple-health-bulk-data-api-openapi.yml",
+    "temple-health-condition-api-openapi.yml",
+    "temple-health-document-reference-api-openapi.yml",
+    "temple-health-encounter-api-openapi.yml",
+    "temple-health-medication-request-api-openapi.yml",
+    "temple-health-metadata-api-openapi.yml",
+    "temple-health-observation-api-openapi.yml",
+    "temple-health-patient-api-openapi.yml"
+  ],
+  "outputs": [
+    "temple-health-allergy-intolerance-api-openapi.yml",
+    "temple-health-bulk-data-api-openapi.yml",
+    "temple-health-condition-api-openapi.yml",
+    "temple-health-document-reference-api-openapi.yml",
+    "temple-health-encounter-api-openapi.yml",
+    "temple-health-medication-request-api-openapi.yml",
+    "temple-health-metadata-api-openapi.yml",
+    "temple-health-observation-api-openapi.yml",
+    "temple-health-patient-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
