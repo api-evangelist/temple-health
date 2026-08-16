@@ -38,7 +38,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/temple-health.png
 access: 3rd-Party
 created: '2026-05-23'
-modified: '2026-07-25'
+modified: '2026-08-15'
 position: Consumer
 specificationVersion: '0.19'
 description: >-
@@ -51,6 +51,12 @@ description: >-
   USCDI-aligned clinical resources to third-party patient-access applications via SMART on FHIR and OAuth 2.0. Temple
   Health does not publish a separate commercial developer program; its API surface is regulatory-mandated and free at
   point of use.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
 common:
   - type: AgenticAccess
     url: agentic-access/temple-health-agentic-access.yml
@@ -108,6 +114,58 @@ common:
     url: finops/temple-health-finops.yml
   - url: https://www.templehealth.org/about/news
     type: Blog
+  - type: WellKnown
+    url: well-known/temple-health-well-known.yml
+  - type: SMARTConfiguration
+    name: SMART App Launch configuration (served live, HTTP 200)
+    url: well-known/temple-health-smart-configuration.json
+  - type: OpenIDConnect
+    name: OpenID Connect discovery document (served live, HTTP 200)
+    url: well-known/temple-health-openid-configuration.json
+  - type: Conformance
+    url: conformance/temple-health-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temple-health-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/temple-health-lifecycle.yml
+  - type: Conventions
+    url: conventions/temple-health-conventions.yml
+  - type: DataModel
+    url: data-model/temple-health-data-model.yml
+  - type: LLMsTxt
+    url: llms/temple-health-llms.txt
+  - type: MCPServer
+    name: 'Candidate tool surface only — Temple Health hosts no MCP server (deployment mode: none)'
+    url: mcp/temple-health-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Examples
+    name: FHIR R4 CapabilityStatement example
+    url: examples/temple-health-fhir-r4-capability-statement-example.json
+  - type: Examples
+    name: FHIR R4 SMART configuration example
+    url: examples/temple-health-fhir-r4-smart-configuration-example.json
+  - type: Examples
+    name: FHIR R4 Patient search example
+    url: examples/temple-health-fhir-r4-patient-search-example.json
+  - type: Examples
+    name: FHIR R4 Observation search example
+    url: examples/temple-health-fhir-r4-observation-search-example.json
+  - type: PriceTransparency
+    name: CMS Hospital Price Transparency machine-readable-file index (cms-hpt.txt)
+    url: well-known/temple-health-cms-hpt.txt
+  - type: TermsOfService
+    url: https://hub.templehealth.org/web/guest/disclaimer_termsofuse.html
+  - type: Support
+    url: https://www.templehealth.org/contact-us
+  - type: Pricing
+    name: Hospital pricing information (CMS price transparency; there is no developer pricing tier)
+    url: https://www.templehealth.org/patients-visitors/billing-financial/hospital-pricing-information
+  - type: PatientRights
+    url: https://hub.templehealth.org/web/guest/patientrights.html
+  - type: HIPAANotice
+    name: Notice of privacy practices
+    url: https://hub.templehealth.org/web/guest/privacy-hipaa.html
 apis:
   - aid: temple-health:temple-health-fhir-dstu2-api
     name: Temple Health FHIR DSTU2 API
@@ -148,6 +206,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-allergy-intolerance-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-allergy-intolerance-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -183,6 +243,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-bulk-data-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-bulk-data-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -218,6 +280,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-condition-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-condition-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -253,6 +317,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-document-reference-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-document-reference-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -288,6 +354,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-encounter-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-encounter-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -324,6 +392,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-medication-request-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-medication-request-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -359,6 +429,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-metadata-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-metadata-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -394,6 +466,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-observation-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-observation-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -429,6 +503,8 @@ apis:
     properties:
       - type: OpenAPI
         url: openapi/temple-health-patient-api-openapi.yml
+      - type: Overlay
+        url: overlays/temple-health-patient-api-overlay.yaml
       - type: CapabilityStatement
         url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
       - type: SmartConfiguration
@@ -454,3 +530,8 @@ apis:
         url: https://hl7.org/fhir/uv/bulkdata/
       - type: SpectralRuleset
         url: rules/temple-health-temple-health-fhir-r4-rules.yml
+x-enrichment:
+  date: '2026-08-15'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1
