@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temple Health FHIR R4 Allergy Intolerance Metadata API",
+    "version": "4.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize",
+      "accessTokenUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get FHIR Capability Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata"
+          },
+          "docs": "Returns the FHIR CapabilityStatement describing this server's supported resources, search parameters, and security."
+        },
+        {
+          "info": {
+            "name": "Get Smart Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration"
+          },
+          "docs": "Returns the SMART App Launch configuration document describing OAuth 2.0 endpoints, scopes, and capabilities."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

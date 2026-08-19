@@ -1,0 +1,120 @@
+generated: '2026-08-15'
+method: probed
+source: >-
+  Live GET of the R4 and DSTU2 conformance documents on
+  epicaccess.templehealth.org (2026-08-15), plus probes of the candidate status
+  and deprecation surfaces on templehealth.org.
+description: >-
+  Temple Health publishes no API versioning policy, no deprecation policy, no SLA
+  and no status page of its own. The only version signal this API emits is the
+  one the server states about itself in its conformance documents — the FHIR
+  release it speaks and the Epic build behind it — and that signal is genuinely
+  useful because it is live, dated, and machine-readable. Everything else in this
+  file is a recorded absence.
+
+versioning:
+  scheme: uri-path-by-fhir-release
+  current: R4 (FHIR 4.0.1)
+  bases:
+    - version: R4
+      fhir_version: 4.0.1
+      url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+      status: current
+      resource_types: 59
+      writable_resource_types: 13
+    - version: DSTU2
+      fhir_version: 1.0.2
+      url: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
+      status: legacy
+      resource_types: 17
+      note: >-
+        Still live and still serving a Conformance document as of 2026-08-15, from
+        the same Epic build as R4. No sunset date is published anywhere. New
+        integrations should target R4; DSTU2 has no SMART discovery document.
+  docs: null
+  policy_published: false
+  note: >-
+    Version is selected by base path, not by header or query parameter. There is
+    no Temple Health-authored versioning policy page.
+
+platform_version:
+  software: Epic
+  version: February 2026
+  release_date: '2026-07-10'
+  observed: '2026-08-15'
+  source: CapabilityStatement.software (both R4 and DSTU2)
+  note: >-
+    This is the strongest change signal the endpoint publishes. It is also the
+    only one: Epic names the release train and its date, Temple Health does not
+    publish a changelog, and there is no notification surface for consumers.
+  drift_recorded: >-
+    The repo's harvested examples and OpenAPI descriptions were written against
+    the "August 2025" Epic release. The live server reported "February 2026"
+    (releaseDate 2026-07-10) on 2026-08-15. The endpoint moved forward at least
+    one Epic release with no consumer-facing announcement — an integrator has no
+    way to learn this except by re-reading /metadata.
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No RFC 8594 Sunset or Deprecation headers observed on any response. No
+    deprecation policy page exists on templehealth.org. The DSTU2 endpoint is
+    legacy by convention and by Epic's own version-support guidance, but Temple
+    Health has published no sunset commitment for it, so no Deprecation pointer is
+    emitted. An honest absence, not an oversight.
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No SLA published. Access is governed by the CMS Interoperability and Patient
+    Access rule and by the Epic on FHIR app-registration agreement, neither of
+    which is an availability commitment to third-party developers.
+
+status_page: null
+status_page_probe:
+  - url: https://templehealth.statuspage.io/
+    status: 302
+    resolves_to: https://www.statuspage.io/
+    verdict: not-a-status-page
+    note: >-
+      IMPORTANT soft-200 trap. The subdomain answers, but it 302s to the Atlassian
+      Statuspage marketing site — it is an unclaimed/unprovisioned tenant, not a
+      Temple Health status page. A probe that recorded only the final 200 would
+      have credited Temple Health with a status page it does not operate. No
+      StatusPage pointer is emitted.
+  - url: https://www.templehealth.org/status
+    status: 404
+  - url: https://status.my.templehealth.org/
+    status: 000
+    note: DNS does not resolve.
+
+change_notification:
+  channels: []
+  note: >-
+    No developer changelog, no release notes, no mailing list, no RSS for API
+    changes. Temple Health's news feed (https://www.templehealth.org/about/news)
+    is institutional communications, not API change communication.
+
+support:
+  developer_channel: null
+  onboarding: >-
+    Third-party apps register with Epic on FHIR (https://fhir.epic.com/Developer/Apps)
+    and are then approved by Temple Health against the production endpoint. There
+    is no public developer support address or ticket queue.
+  patient_portal_support: '215-707-7008 (myTempleHealth / MyChart help line)'
+
+data_lifecycle:
+  price_transparency_files:
+    published: '2026-04'
+    cadence: annual (CMS 45 CFR 180 requires at least once every 12 months)
+    index: https://www.templehealth.org/cms-hpt.txt
+    note: >-
+      The dated file paths (/sites/default/files/file/2026-04/...) are the only
+      versioned, self-describing artifact Temple Health publishes on the website
+      side. A consumer can detect a new edition by re-reading cms-hpt.txt.

@@ -1,0 +1,173 @@
+{
+  "item": [
+    {
+      "id": "31131e49-206f-4185-baec-3f432ce614ac",
+      "name": "Condition",
+      "description": {
+        "content": "Detailed information about conditions, problems, or diagnoses.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b43cd27-7b6e-4cee-91ee-ea9d355aade4",
+          "name": "Search Condition",
+          "request": {
+            "name": "Search Condition",
+            "description": {
+              "content": "Search Condition resources for a patient (problems, encounter diagnoses, health concerns).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Condition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient",
+                  "value": "<string>",
+                  "description": "(Required) Reference to the Patient (id or Patient/{id})."
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "US Core Condition category (problem-list-item, encounter-diagnosis, health-concern)."
+                },
+                {
+                  "disabled": false,
+                  "key": "clinical-status",
+                  "value": "<string>",
+                  "description": "Clinical status (active, recurrence, relapse, inactive, remission, resolved)."
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "<integer>",
+                  "description": "Number of resources to return per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b1f33ef-632a-416c-ba81-02581fdd9175",
+              "name": "Bundle of Condition resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Condition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clinical-status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"searchset\",\n  \"total\": 1728\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "launch openid fhirUser offline_access patient/Patient.read patient/Observation.read patient/Condition.read patient/Encounter.read patient/MedicationRequest.read patient/AllergyIntolerance.read patient/DocumentReference.read user/Patient.read system/Patient.read"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "672342ac-3470-4719-9bfa-019602c1739e",
+    "name": "Temple Health FHIR R4 Allergy Intolerance Condition API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI surface for the Temple Health FHIR R4 endpoint, Temple University Health System's CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API powered by Epic's August 2025 release. Exposes USCDI-aligned clinical resources to third-party patient-access applications under SMART on FHIR / OAuth 2.0. Only a subset of the 80+ supported FHIR resource types is documented here — refer to the live CapabilityStatement for the full surface.\n\nContact Support:\n Name: Epic on FHIR",
+      "type": "text/plain"
+    }
+  }
+}

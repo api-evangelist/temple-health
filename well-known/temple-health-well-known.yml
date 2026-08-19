@@ -1,0 +1,187 @@
+generated: '2026-08-15'
+method: probed
+source: >-
+  Live unauthenticated GET probes of every Temple Health host named in apis.yml
+  (www.templehealth.org, epicaccess.templehealth.org, my.templehealth.org,
+  hub.templehealth.org, www.foxchase.org) and of the FHIR R4 / DSTU2 base paths
+  in the OpenAPI servers[] block.
+description: >-
+  Temple Health serves NO discovery documents at the conventional origin-root
+  /.well-known/ paths on any of its hosts — every RFC 8615 probe below returned
+  404. What it does serve, and what makes this a real WellKnown surface, are two
+  regulator- and standard-mandated discovery documents in non-root locations:
+  the SMART App Launch configuration under the FHIR R4 base path (SMART App
+  Launch 2.x / RFC 8615 relative to the FHIR base), the matching OIDC discovery
+  document under the Epic OAuth2 base, and — at the true domain root — the CMS
+  Hospital Price Transparency index file cms-hpt.txt, which CMS requires at
+  <domain>/cms-hpt.txt and which is machine-readable by design.
+
+hosts:
+  - host: https://epicaccess.templehealth.org
+    role: FHIR API host (Epic Interconnect "FhirProxyPrd")
+  - host: https://www.templehealth.org
+    role: Website / price-transparency publication host
+  - host: https://my.templehealth.org
+    role: myTempleHealth (Epic MyChart) patient portal
+  - host: https://hub.templehealth.org
+    role: Terms of use / privacy / patient rights host
+  - host: https://www.foxchase.org
+    role: Fox Chase Cancer Center (Temple Health member hospital)
+
+documents:
+  # ---- REAL HITS ----
+  - path: /FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+    host: https://epicaccess.templehealth.org
+    status: 200
+    content_type: application/json
+    spec: SMART App Launch 2.x well-known discovery
+    file: temple-health-smart-configuration.json
+    note: >-
+      Real document. Declares authorize/token endpoints, PKCE S256, five
+      scopes_supported, five grant types (including client_credentials and
+      token-exchange) and 17 SMART capabilities.
+  - path: /FhirProxyPrd/oauth2/.well-known/openid-configuration
+    host: https://epicaccess.templehealth.org
+    status: 200
+    content_type: application/json
+    spec: OpenID Connect Discovery 1.0
+    file: temple-health-openid-configuration.json
+    note: >-
+      Real document. issuer https://epicaccess.templehealth.org/FhirProxyPrd/oauth2,
+      RS256 id_token signing, jwks_uri present. Note the OIDC document is served
+      under the /FhirProxyPrd/oauth2 base, NOT at the origin root.
+  - path: /FhirProxyPrd/api/epic/2019/Security/Open/PublicKeys/530027/OIDC
+    host: https://epicaccess.templehealth.org
+    status: 200
+    content_type: application/json
+    spec: JWKS (RFC 7517) — the jwks_uri named by the OIDC document
+    file: temple-health-oidc-jwks.json
+  - path: /cms-hpt.txt
+    host: https://www.templehealth.org
+    status: 200
+    content_type: text/plain
+    spec: CMS Hospital Price Transparency machine-readable-file index (45 CFR 180.50)
+    file: temple-health-cms-hpt.txt
+    note: >-
+      Real document at the domain root. Indexes eight standard-charges CSVs, one
+      per Temple Health hospital campus, each with its source page. The two
+      contact lines (a named individual and their work email) are REDACTED in the
+      saved copy under the enrichment PII guardrail; everything else is verbatim.
+  - path: /cms-hpt.txt
+    host: https://www.foxchase.org
+    status: 200
+    content_type: text/plain
+    spec: CMS Hospital Price Transparency machine-readable-file index (45 CFR 180.50)
+    note: >-
+      Fox Chase Cancer Center publishes its own root-level index pointing at its
+      own standard-charges CSV. Not saved separately; same shape and same
+      compliance contact as the Temple Health file.
+
+  # ---- MISSES (recorded absences) ----
+  - path: /.well-known/security.txt
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/openid-configuration
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/api-catalog
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/agent-card.json
+    host: https://www.templehealth.org
+    status: 404
+  - path: /.well-known/agent.json
+    host: https://www.templehealth.org
+    status: 404
+  - path: /llms.txt
+    host: https://www.templehealth.org
+    status: 404
+  - path: /robots.txt
+    host: https://www.templehealth.org
+    status: 200
+    content_type: text/plain
+    note: >-
+      Stock Drupal robots.txt. No AI/agent directives, no Sitemap-only gating, no
+      GPTBot/CCBot rules — carries no consent or agent-access signal, so it is
+      recorded but not saved.
+  - path: /.well-known/security.txt
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/openid-configuration
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/api-catalog
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/agent-card.json
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /.well-known/agent.json
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /FhirProxyPrd/api/FHIR/R4/.well-known/oauth-authorization-server
+    host: https://epicaccess.templehealth.org
+    status: 404
+  - path: /FhirProxyPrd/api/FHIR/R4/.well-known/oauth-protected-resource
+    host: https://epicaccess.templehealth.org
+    status: 404
+    note: >-
+      No RFC 9728 protected-resource metadata. An agent cannot discover the
+      authorization server from the resource server; it must read the SMART
+      configuration under the FHIR base instead.
+  - path: /FhirProxyPrd/api/FHIR/DSTU2/.well-known/smart-configuration
+    host: https://epicaccess.templehealth.org
+    status: 404
+    note: >-
+      The legacy DSTU2 base has NO SMART discovery document. DSTU2 clients must
+      read the oauth-uris extension out of the DSTU2 Conformance statement.
+  - path: /.well-known/security.txt
+    host: https://my.templehealth.org
+    status: 404
+  - path: /.well-known/agent-card.json
+    host: https://my.templehealth.org
+    status: 404
+  - path: /.well-known/agent.json
+    host: https://my.templehealth.org
+    status: 404
+  - path: /.well-known/security.txt
+    host: https://hub.templehealth.org
+    status: 404
+  - path: /.well-known/agent-card.json
+    host: https://hub.templehealth.org
+    status: 404
+  - path: /.well-known/security.txt
+    host: https://www.foxchase.org
+    status: 404
+  - path: /.well-known/agent-card.json
+    host: https://www.foxchase.org
+    status: 404
+  - path: /llms.txt
+    host: https://www.foxchase.org
+    status: 404
+
+findings:
+  - >-
+    No security.txt on any host. Temple Health publishes no RFC 9116 contact, so
+    no SecurityTxt pointer is emitted and no vulnerability-disclosure artifact
+    was written.
+  - >-
+    No A2A agent card on any host, at either the canonical or the legacy path.
+    Per the pipeline's search-only rule, nothing was authored in a2a/.
+  - >-
+    The only agent-reachable discovery documents are the SMART/OIDC pair on the
+    FHIR host and the CMS price-transparency index on the website. Both exist
+    because a standard or a regulator requires them, not because Temple Health
+    runs a developer program.

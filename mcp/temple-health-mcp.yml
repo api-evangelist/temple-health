@@ -1,0 +1,109 @@
+generated: '2026-08-15'
+method: derived
+status: candidate
+source: >-
+  Derived from the 11 operationIds in openapi/*.yml and the live R4
+  CapabilityStatement. NOT published by Temple Health — searched for and not
+  found (see search_evidence below).
+description: >-
+  Temple Health ships no MCP server. This is a CANDIDATE tool surface derived
+  from the operations the FHIR endpoint actually exposes, so that an integrator
+  can see what an MCP wrapper would look like. Nobody hosts it, nobody has
+  installed it, and no endpoint URL is asserted anywhere in this file.
+
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: derived
+  note: >-
+    mode:none is the finding. No hosted remote endpoint and no stdio package
+    exists. The auth field records what an MCP server WOULD have to implement —
+    SMART on FHIR OAuth 2.0 with per-patient scopes — because that constraint is
+    what makes a naive MCP wrapper of this API unsafe.
+
+search_evidence:
+  - checked: npm registry search for "temple-health" / "templehealth" — no first-party package
+  - checked: 'https://epicaccess.templehealth.org/.well-known/agent-card.json — 404'
+  - checked: 'https://www.templehealth.org/.well-known/ai-plugin.json — 404'
+  - checked: 'https://www.templehealth.org/llms.txt — 404'
+  - checked: 'GitHub org https://github.com/Temple-Health — exists (created 2022-04-07) with 0 public repositories'
+
+phi_warning: >-
+  Every tool below except get_capability_statement and get_smart_configuration
+  returns protected health information for a real, identified patient. A tool
+  server built from this list must bind the SMART patient context to the caller,
+  must never accept a caller-supplied patient id from a model, and must not log
+  responses. Do not build an agent surface over this API without that.
+
+tools:
+  - name: get_capability_statement
+    description: >-
+      Fetch the FHIR CapabilityStatement — the server's declared resources,
+      search parameters, profiles and security. Anonymous; safe.
+    source_operation: openapi/temple-health-metadata-api-openapi.yml#getMetadata
+    phi: false
+  - name: get_smart_configuration
+    description: >-
+      Fetch the SMART App Launch configuration — authorize/token endpoints,
+      supported scopes, grant types and capabilities. Anonymous; safe.
+    source_operation: openapi/temple-health-metadata-api-openapi.yml#getSmartConfiguration
+    phi: false
+  - name: read_patient
+    description: Read a single Patient resource by FHIR logical id.
+    source_operation: openapi/temple-health-patient-api-openapi.yml#readPatient
+    phi: true
+  - name: search_patient
+    description: Search Patient resources by identifier, name, birthdate or other US Core parameters.
+    source_operation: openapi/temple-health-patient-api-openapi.yml#searchPatient
+    phi: true
+    note: >-
+      Highest-risk tool in the set. Demographic search over a hospital's patient
+      index. Should be bound to the launching patient's own record, not exposed
+      as free search.
+  - name: search_observation
+    description: Search Observations (vitals, labs, smoking status) for the patient in context.
+    source_operation: openapi/temple-health-observation-api-openapi.yml#searchObservation
+    phi: true
+  - name: search_condition
+    description: Search Conditions, problems and diagnoses for the patient in context.
+    source_operation: openapi/temple-health-condition-api-openapi.yml#searchCondition
+    phi: true
+  - name: search_allergy_intolerance
+    description: Search allergies and intolerances for the patient in context.
+    source_operation: openapi/temple-health-allergy-intolerance-api-openapi.yml#searchAllergyIntolerance
+    phi: true
+  - name: search_medication_request
+    description: Search medication orders/prescriptions for the patient in context.
+    source_operation: openapi/temple-health-medication-request-api-openapi.yml#searchMedicationRequest
+    phi: true
+  - name: search_encounter
+    description: Search encounters (visits) for the patient in context.
+    source_operation: openapi/temple-health-encounter-api-openapi.yml#searchEncounter
+    phi: true
+  - name: search_document_reference
+    description: >-
+      Search clinical documents (CCDA, notes) for the patient in context. Returns
+      references; attachment bytes are fetched separately from Binary.
+    source_operation: openapi/temple-health-document-reference-api-openapi.yml#searchDocumentReference
+    phi: true
+  - name: bulk_export_group
+    description: >-
+      Kick off an HL7 FHIR Bulk Data Group-level $export. Asynchronous; returns a
+      polling location.
+    source_operation: openapi/temple-health-bulk-data-api-openapi.yml#bulkExportGroup
+    phi: true
+    note: >-
+      Population-scale export. Requires SMART Backend Services (client_credentials
+      + private_key_jwt) and a Temple Health data-use agreement. Not a
+      patient-access tool and should not be exposed to a general-purpose agent.
+
+not_covered:
+  note: >-
+    The live server declares 59 resource types; the OpenAPIs in this repo cover
+    seven plus metadata and bulk export. The remaining 48 (Coverage,
+    ExplanationOfBenefit, DiagnosticReport, Immunization, CarePlan, CareTeam,
+    Goal, Procedure, Binary, Provenance, and others) have no derived tool here
+    because there is no operationId in the repo to ground one in.

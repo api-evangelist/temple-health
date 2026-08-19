@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temple Health FHIR R4 Allergy Intolerance Encounter API",
+    "version": "4.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize",
+      "accessTokenUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Encounter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/Encounter",
+            "params": [
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "Reference to the Patient (id or Patient/{id})."
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Encounter period start date."
+              },
+              {
+                "name": "class",
+                "value": "",
+                "type": "query",
+                "description": "Encounter class (ambulatory, emergency, inpatient, etc.)."
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Number of resources to return per page."
+              }
+            ]
+          },
+          "docs": "Search Encounter resources for a patient."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

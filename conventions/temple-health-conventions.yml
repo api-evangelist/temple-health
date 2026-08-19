@@ -1,0 +1,196 @@
+generated: '2026-08-15'
+method: probed
+source: >-
+  Derived from the live R4 CapabilityStatement and observed response headers on
+  https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4 (2026-08-15),
+  cross-checked against openapi/*.yml and HL7 FHIR R4 §3.1 (RESTful API).
+description: >-
+  The cross-cutting request/response semantics that apply to every operation on
+  the Temple Health FHIR endpoint. Nearly all of them are inherited from the FHIR
+  R4 specification rather than authored by Temple Health — which is the useful
+  finding: an agent that already knows FHIR needs no provider-specific reading,
+  and an agent that does not will find nothing provider-specific to read.
+
+base_urls:
+  r4: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
+  dstu2: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/DSTU2
+api_style: FHIR RESTful (HL7 FHIR R4 §3.1) over HTTPS
+
+authentication:
+  scheme: OAuth 2.0 Bearer token via SMART App Launch
+  challenge: 'WWW-Authenticate: Bearer (observed on 401; no realm, no resource_metadata)'
+  flows: [authorization_code, refresh_token, client_credentials, jwt-bearer, token-exchange]
+  pkce: S256 (required for public clients)
+  client_auth: [client_secret_post, client_secret_basic, private_key_jwt]
+  anonymous_surface:
+    - /metadata
+    - /.well-known/smart-configuration
+  detail: authentication/temple-health-authentication.yml
+  scopes: scopes/temple-health-scopes.yml
+
+content_negotiation:
+  request_header: 'Accept: application/fhir+json (or application/fhir+xml)'
+  formats_supported: [json, xml]
+  format_override: '?_format=json | ?_format=xml'
+  observed: >-
+    An unrecognised _format value (e.g. ?_format=xyz) is ignored rather than
+    rejected — the server returned 200 application/fhir+json. Tolerant, not strict.
+  patch_format: none declared
+
+idempotency:
+  supported: false
+  mechanism: null
+  evidence: >-
+    All 59 resource declarations in the live CapabilityStatement report
+    conditionalCreate=false, conditionalUpdate=false, conditionalDelete=not-supported,
+    conditionalRead=not-supported, updateCreate=false, readHistory=false. There is
+    no If-None-Exist conditional-create path and no ETag/If-Match concurrency path
+    advertised. 46 of 59 resources are read/search only, where idempotency is
+    inherent; the 13 writable resources have NO idempotency contract.
+  note: >-
+    No Idempotency pointer is emitted for this provider. A retried create against
+    one of the writable resources may duplicate.
+
+pagination:
+  style: fhir-bundle-link
+  request_params:
+    _count: page size hint (server may cap it)
+  response:
+    resource_type: Bundle
+    type: searchset
+    fields:
+      total: total matches (may be omitted on large sets)
+      link: 'array of {relation, url} — relation "self" and "next" drive paging'
+      entry: array of matched resources
+  cursor: >-
+    Follow Bundle.link[relation=next] verbatim. The next URL is opaque and
+    server-signed; do not reconstruct it from _count/_offset.
+  docs: HL7 FHIR R4 §3.1.1 (paging)
+
+search_conventions:
+  declared_params_per_resource: >-
+    Each resource declares its own searchParam[] set in the CapabilityStatement
+    (Patient 30, Observation 30, DocumentReference 27). Undeclared parameters are
+    not honoured.
+  includes:
+    searchInclude: '["*"] on every resource — _include is broadly supported'
+    searchRevInclude: '["Provenance:target"] — the only reverse include supported'
+  modifiers: standard FHIR modifiers/prefixes per parameter type
+  note: >-
+    Read GET /metadata before constructing searches; the supported parameter set
+    is the CapabilityStatement, not a docs page.
+
+field_selection:
+  supported: partial
+  mechanism: '_elements (FHIR standard), _summary'
+  note: Not separately declared by the server; standard FHIR behaviour applies.
+
+profiles_and_validation:
+  supported_profiles: US Core 6.1.0 StructureDefinitions declared per resource
+  instantiates:
+    - http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server|6.1.0
+    - http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data
+  note: >-
+    Validate writes against the declared supportedProfile for that resource
+    before POSTing; the server enforces Epic business rules beyond profile shape.
+
+versioning:
+  style: base-path per FHIR release (R4 / DSTU2)
+  detail: lifecycle/temple-health-lifecycle.yml
+
+error_envelope:
+  media_type: application/fhir+json
+  resource_type: OperationOutcome
+  exceptions:
+    - '401 returns an EMPTY JSON body — no OperationOutcome'
+    - 'Unrecognised paths return an HTML IIS 404 page, not FHIR'
+  detail: errors/temple-health-problem-types.yml
+
+rate_limit_signaling:
+  headers_observed: []
+  retry_after: false
+  status_on_exhaustion: presumed 429 (not documented, not observed)
+  detail: rate-limits/temple-health-rate-limits.yml
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header appeared on any observed
+    response. There is no runtime backpressure signal for an agent to read.
+
+request_tracing:
+  request_id_header: none
+  correlation: none published
+  epic_context_headers:
+    - Epic-Client-ID
+    - Epic-External-Request
+    - Epic-User-ID
+    - Epic-User-IDType
+    - Epic-MyChartUser-ID
+    - Epic-MyChartUser-IDType
+  note: >-
+    These appear in the server's Access-Control-Allow-Headers list (observed
+    2026-08-15), so they are accepted by the endpoint. They are Epic
+    Interconnect context headers, not tracing identifiers, and they are not
+    documented by Temple Health.
+
+caching:
+  headers_observed:
+    cache-control: no-cache,no-store
+    pragma: no-cache
+    expires: '-1'
+  etag: not advertised (readHistory=false on all resources)
+  note: Responses are explicitly uncacheable — appropriate for PHI, but it means no conditional GET.
+
+cors:
+  enabled: true
+  allow_origin: '*'
+  allow_credentials: true
+  allow_methods: [GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS]
+  note: >-
+    CapabilityStatement.rest.cors = true and the observed headers confirm it.
+    Wildcard origin with allow_credentials:true is an unusual combination; browsers
+    reject credentialed requests against a wildcard origin, so in practice
+    browser-based SMART apps rely on the bearer token in the Authorization header
+    rather than cookies.
+
+transport_security:
+  tls: TLSv1.2 on epicaccess.templehealth.org
+  hsts_observed: 'max-age=31536000; includeSubDomains (observed on FHIR API responses)'
+  note: >-
+    HSTS is present on API responses even though the origin-root probe in
+    security/temple-health-domain-security.yml records hsts:false — the root path
+    404 page does not carry the header while the API paths do.
+
+advisory_signals:
+  warning_header: >-
+    RFC 7234 "Warning: 199 <node> ..." observed on a successful 200 /metadata
+    response. The only in-band advisory channel this API has.
+
+write_surface:
+  writable_resources:
+    - AllergyIntolerance
+    - BodyStructure
+    - Communication
+    - ConceptMap
+    - Condition
+    - DiagnosticReport
+    - DocumentReference
+    - Observation
+    - Patient
+    - Procedure
+    - QuestionnaireResponse
+    - ServiceRequest
+    - Task
+  interactions: [create, update]
+  note: >-
+    13 of 59 resource types accept writes; the other 46 are read/search only.
+    Write access is granted per app at Temple Health onboarding and is not part of
+    the patient-access read profile.
+
+bulk_data:
+  supported: true
+  operation: Group/$export (declared as operation "group-export" on Group)
+  spec: HL7 FHIR Bulk Data Access (Flat FHIR)
+  auth: SMART Backend Services (client_credentials + private_key_jwt)
+  note: >-
+    Asynchronous kick-off/poll/download pattern per the Bulk Data IG. Access is
+    normally restricted to organizations under a data-use agreement, not to
+    patient-access apps.

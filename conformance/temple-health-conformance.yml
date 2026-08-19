@@ -1,0 +1,192 @@
+generated: '2026-08-15'
+method: probed
+source: >-
+  Live GET https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+  (HTTP 200, application/fhir+json, 92,987 bytes),
+  .../FHIR/DSTU2/metadata (HTTP 200),
+  .../FHIR/R4/.well-known/smart-configuration (HTTP 200),
+  .../FhirProxyPrd/oauth2/.well-known/openid-configuration (HTTP 200),
+  and https://www.templehealth.org/cms-hpt.txt (HTTP 200) — all fetched 2026-08-15.
+description: >-
+  Which cross-cutting and healthcare-industry standards the Temple Health API
+  surface actually conforms to, asserted from the live server's own conformance
+  documents rather than from marketing claims. The R4 CapabilityStatement
+  declares instantiates[] against two published HL7 CapabilityStatements, which
+  is the strongest form of self-asserted conformance FHIR offers.
+
+server:
+  software: Epic
+  version: February 2026
+  release_date: '2026-07-10'
+  implementation: Temple Health FHIR Server
+  capability_statement_date: '2026-08-15T20:08:03Z'
+  fhir_version: 4.0.1
+  formats: [xml, json]
+  resource_types: 59
+  cors: true
+
+standards:
+  - id: fhir-r4
+    name: HL7 FHIR Release 4.0.1
+    conforms: true
+    evidence: >-
+      CapabilityStatement.fhirVersion = 4.0.1, status = active, 59 resource types
+      with read/search-type interactions (13 also create/update).
+  - id: fhir-dstu2
+    name: HL7 FHIR DSTU2 1.0.2 (legacy)
+    conforms: true
+    evidence: >-
+      Conformance resource at /FHIR/DSTU2/metadata, fhirVersion 1.0.2, 17 resource
+      types. Same Epic February 2026 build as the R4 endpoint.
+  - id: us-core-6.1.0
+    name: HL7 US Core Implementation Guide STU6.1
+    conforms: true
+    evidence: >-
+      CapabilityStatement.instantiates includes
+      http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server|6.1.0, and
+      resources declare supportedProfile against us-core StructureDefinitions
+      (e.g. us-core-patient|6.1.0, 22 us-core Observation profiles).
+  - id: uscdi
+    name: USCDI (United States Core Data for Interoperability)
+    conforms: true
+    evidence: >-
+      Implied by the US Core 6.1.0 server conformance above — US Core STU6.1 is the
+      ONC-designated FHIR representation of USCDI v3.
+  - id: fhir-bulk-data
+    name: HL7 FHIR Bulk Data Access (Flat FHIR) IG
+    conforms: true
+    evidence: >-
+      CapabilityStatement.instantiates includes
+      http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data, and the Group
+      resource declares operation "group-export".
+  - id: smart-app-launch
+    name: SMART App Launch (SMART on FHIR)
+    conforms: true
+    evidence: >-
+      /.well-known/smart-configuration returns 200 with 17 capabilities including
+      launch-ehr, launch-standalone, client-confidential-asymmetric,
+      permission-v1, permission-v2, permission-patient, permission-user,
+      permission-offline, sso-openid-connect. CapabilityStatement.rest.security
+      carries the SMART oauth-uris extension and a SMART-on-FHIR service coding.
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749)
+    conforms: true
+    evidence: >-
+      authorization_endpoint + token_endpoint published; grant_types_supported =
+      authorization_code, refresh_token, client_credentials,
+      urn:ietf:params:oauth:grant-type:jwt-bearer,
+      urn:ietf:params:oauth:grant-type:token-exchange.
+  - id: rfc7636-pkce
+    name: PKCE (RFC 7636)
+    conforms: true
+    evidence: code_challenge_methods_supported = [S256].
+  - id: rfc7523-jwt-bearer
+    name: JWT client authentication / authorization grants (RFC 7523)
+    conforms: true
+    evidence: >-
+      token_endpoint_auth_methods_supported includes private_key_jwt; grant types
+      include urn:ietf:params:oauth:grant-type:jwt-bearer. This is the SMART
+      Backend Services (asymmetric client) path.
+  - id: rfc8693-token-exchange
+    name: OAuth 2.0 Token Exchange (RFC 8693)
+    conforms: true
+    evidence: grant_types_supported includes urn:ietf:params:oauth:grant-type:token-exchange.
+  - id: openid-connect
+    name: OpenID Connect Core / Discovery 1.0
+    conforms: true
+    evidence: >-
+      /FhirProxyPrd/oauth2/.well-known/openid-configuration returns 200 with
+      issuer, jwks_uri, RS256 id_token_signing_alg_values_supported, subject_types
+      public. SMART capability sso-openid-connect declared.
+  - id: rfc7517-jwks
+    name: JSON Web Key Set (RFC 7517)
+    conforms: true
+    evidence: jwks_uri resolves 200 with a JWKS document.
+  - id: rfc6750-bearer
+    name: OAuth 2.0 Bearer Token Usage (RFC 6750)
+    conforms: true
+    evidence: >-
+      Unauthenticated GET /Patient/example returns HTTP 401 with
+      "WWW-Authenticate: Bearer" (observed 2026-08-15).
+  - id: rfc9728-protected-resource-metadata
+    name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+    conforms: false
+    evidence: >-
+      /FHIR/R4/.well-known/oauth-protected-resource returns 404. The 401 challenge
+      is bare "Bearer" with no resource_metadata parameter, so an agent cannot
+      discover the authorization server from the challenge alone.
+  - id: rfc8414-as-metadata
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: false
+    evidence: >-
+      /.well-known/oauth-authorization-server returns 404 on both the origin root
+      and the FHIR base; discovery is via the OIDC and SMART documents instead.
+  - id: rfc9457-problem-details
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Errors are FHIR OperationOutcome (application/fhir+json), not
+      application/problem+json. FHIR's own error model supersedes RFC 9457 here.
+      Observed 401 responses return an empty JSON body with no OperationOutcome at
+      all, which is weaker than either.
+  - id: rfc9116-security-txt
+    name: security.txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on every Temple Health host.
+  - id: cms-9115-f
+    name: CMS Interoperability and Patient Access Final Rule (CMS-9115-F)
+    conforms: true
+    evidence: >-
+      Free, patient-authorized FHIR R4 Patient Access API published at a stable
+      public endpoint with SMART/OAuth 2.0 app authorization — the shape the rule
+      mandates. Endpoint is listed in Epic's public R4 endpoint registry.
+    reference: https://www.cms.gov/Regulations-and-Guidance/Guidance/Interoperability/index
+  - id: onc-cures-act
+    name: 21st Century Cures Act ONC Final Rule (information blocking / standardized API)
+    conforms: true
+    evidence: >-
+      US Core 6.1.0 + SMART App Launch + FHIR R4 is the ONC Certification
+      (170.315(g)(10)) standardized API criterion stack, served publicly and
+      without a fee at the point of use.
+    reference: https://www.healthit.gov/curesrule/
+  - id: cms-hospital-price-transparency
+    name: CMS Hospital Price Transparency (45 CFR 180)
+    conforms: true
+    evidence: >-
+      https://www.templehealth.org/cms-hpt.txt returns 200 and indexes eight
+      standard-charges CSVs (one per hospital campus, 2026-04 files, up to 125 MB).
+      https://www.foxchase.org/cms-hpt.txt serves the Fox Chase index.
+    reference: https://www.templehealth.org/pricing-disclaimer
+  - id: hipaa
+    name: HIPAA Privacy and Security Rules
+    conforms: true
+    evidence: >-
+      Temple Health is a covered entity; its HIPAA notice of privacy practices is
+      published at https://hub.templehealth.org/web/guest/privacy-hipaa.html. This
+      is a regulatory status, not a certification audit.
+  - id: section-1557
+    name: ACA Section 1557 non-discrimination notice
+    conforms: true
+    evidence: https://www.templehealth.org/section-1557-notice-non-discrimination
+  - id: soc2
+    name: SOC 2
+    conforms: unknown
+    evidence: >-
+      No trust center and no published certification. trust.templehealth.org does
+      not resolve; /trust, /security and /compliance return 404.
+  - id: hitrust
+    name: HITRUST CSF
+    conforms: unknown
+    evidence: No published certification found on any Temple Health host.
+
+notes:
+  - >-
+    Every "conforms: true" above is backed by a document the server itself served
+    on 2026-08-15, not by a claim on a marketing page. Temple Health publishes no
+    conformance narrative of its own — the conformance IS the CapabilityStatement.
+  - >-
+    The gaps that matter for machine consumers are all discovery gaps, not
+    protocol gaps: no RFC 9728 resource metadata, no RFC 8414 AS metadata, no
+    security.txt, and no OperationOutcome body on a 401. An agent that hits this
+    API cold gets a bare "WWW-Authenticate: Bearer" and no machine-readable path
+    to the authorization server.

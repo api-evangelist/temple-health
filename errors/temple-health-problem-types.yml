@@ -1,0 +1,147 @@
+generated: '2026-08-15'
+method: probed
+source: >-
+  Live unauthenticated probes of
+  https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4 (2026-08-15),
+  cross-checked against the 4xx responses declared in openapi/*.yml and the
+  HL7 FHIR R4 OperationOutcome / issue-type value sets.
+format: fhir-operation-outcome
+description: >-
+  Temple Health's FHIR endpoint does NOT use RFC 9457 problem+json. The FHIR
+  standard error envelope is an OperationOutcome resource served as
+  application/fhir+json. Two things observed on the live endpoint qualify that:
+  (1) the 401 challenge returns an EMPTY JSON body — no OperationOutcome at all —
+  so an unauthenticated agent gets a status code and a bare WWW-Authenticate
+  header and nothing else machine-readable; (2) a request to a path that is not a
+  supported FHIR resource falls through to the IIS/ARR host and returns an HTML
+  404 page rather than any FHIR error. Both are recorded below as observed, not
+  as they ought to be.
+
+envelope:
+  media_type: application/fhir+json
+  resource_type: OperationOutcome
+  shape:
+    resourceType: OperationOutcome
+    issue:
+      - severity: fatal | error | warning | information
+        code: <FHIR issue-type code>
+        details:
+          coding:
+            - system: <Epic or HL7 code system>
+              code: <code>
+              display: <human text>
+        diagnostics: <free text>
+  code_system: http://hl7.org/fhir/ValueSet/issue-type
+  note: >-
+    OperationOutcome carries no HTTP status inside it; the transport status code
+    is the authoritative signal. There is no vendor error-code registry published
+    for this endpoint.
+
+observed:
+  - status: 401
+    observed_at: '2026-08-15'
+    request: GET /Patient/example (no Authorization header)
+    content_type: application/json; charset=utf-8
+    body: '""'
+    headers:
+      www-authenticate: Bearer
+      cache-control: no-cache,no-store
+    finding: >-
+      Empty JSON string body. No OperationOutcome, no error code, no
+      resource_metadata parameter on the challenge. Reproduced identically on
+      /Patient search, /Observation search and the Group $export path.
+  - status: 404
+    observed_at: '2026-08-15'
+    request: GET /NotAResource
+    content_type: text/html
+    finding: >-
+      IIS "404 - File or directory not found" HTML page, served by the ARR/ASP.NET
+      host in front of Interconnect. Not a FHIR error; a client parsing
+      application/fhir+json will fail on this body.
+
+problems:
+  - status: 401
+    issue_code: login
+    title: Unauthenticated
+    detail: >-
+      No bearer token presented, or the token is expired/invalid. Every resource
+      path on this server is protected; only /metadata and the well-known
+      documents answer anonymously.
+    body_observed: empty JSON
+    remediation: >-
+      Complete a SMART App Launch authorization (see authentication/ and scopes/)
+      and retry with Authorization: Bearer <token>. Refresh with offline_access
+      where granted.
+    source: probed 2026-08-15
+  - status: 403
+    issue_code: forbidden
+    title: Insufficient scope
+    detail: >-
+      Token is valid but does not carry the scope required for the resource, or
+      the app is not authorized by Temple Health for production data. Expected per
+      SMART App Launch; not directly reproducible unauthenticated.
+    remediation: >-
+      Request the matching patient/<Resource>.read or user/<Resource>.read scope at
+      authorization time and confirm the app's Epic on FHIR registration is
+      approved against the Temple Health production endpoint.
+    source: SMART App Launch 2.x + openapi security requirements
+  - status: 404
+    issue_code: not-found
+    title: Resource not found
+    detail: FHIR logical id does not exist, or is not visible to this token's context.
+    source_operation: openapi/temple-health-patient-api-openapi.yml#readPatient
+    remediation: Verify the logical id; re-run a search to obtain a current id.
+  - status: 404
+    issue_code: not-supported
+    title: Unsupported resource path
+    detail: >-
+      Path is not one of the 59 resource types this server declares. Returns an
+      HTML IIS 404 rather than an OperationOutcome — observed 2026-08-15.
+    remediation: >-
+      Read GET /metadata and select from CapabilityStatement.rest.resource[].type
+      before constructing paths.
+  - status: 400
+    issue_code: invalid
+    title: Invalid search parameter or malformed request
+    detail: >-
+      Search parameter not declared for the resource, or an invalid value. The R4
+      CapabilityStatement declares each resource's searchParam[] set (e.g. Patient
+      30, Observation 30, DocumentReference 27).
+    remediation: Constrain searches to declared searchParam names for that resource.
+  - status: 422
+    issue_code: business-rule
+    title: Rejected by server business rules
+    detail: >-
+      Applies to the 13 resource types that accept create/update
+      (AllergyIntolerance, BodyStructure, Communication, ConceptMap, Condition,
+      DiagnosticReport, DocumentReference, Observation, Patient, Procedure,
+      QuestionnaireResponse, ServiceRequest, Task). Epic enforces
+      organization-specific rules beyond profile validation.
+    remediation: Validate against the declared us-core supportedProfile before writing.
+  - status: 429
+    issue_code: throttled
+    title: Rate limited
+    detail: >-
+      Not documented and not observed. Epic Interconnect applies per-application
+      throttling agreed at onboarding; no RateLimit-* or Retry-After headers were
+      returned on any observed response.
+    remediation: Back off exponentially; negotiate quota with Temple Health at onboarding.
+  - status: 500
+    issue_code: exception
+    title: Server error
+    detail: Unhandled server-side fault in Interconnect or the downstream EHR.
+    remediation: Retry with backoff; escalate through the Temple Health app onboarding contact.
+
+non_error_signals:
+  - header: warning
+    example: '199 <server> "A value is required but was not present in the request."'
+    note: >-
+      Observed on a 200 GET /metadata response 2026-08-15. Epic emits RFC 7234
+      Warning headers alongside successful responses; a client that ignores them
+      loses the only in-band advisory this API produces.
+
+gaps:
+  - No published error-code registry or error reference page for this endpoint.
+  - No OperationOutcome body on the 401 challenge.
+  - Non-FHIR HTML error page on unrecognised paths.
+  - No Retry-After / RateLimit-* headers on any observed response.

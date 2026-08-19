@@ -1,91 +1,341 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+generated: '2026-08-15'
+method: probed
+source: Live GET https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+  and .../FhirProxyPrd/oauth2/.well-known/openid-configuration (both HTTP 200, 2026-08-15), reconciled
+  against the oauth2 securitySchemes in openapi/*.yml.
+docs: null
+discovery:
+  smart_configuration: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+  openid_configuration: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/.well-known/openid-configuration
+  issuer: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2
+  authorization_endpoint: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+  token_endpoint: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  - client_credentials
+  - urn:ietf:params:oauth:grant-type:jwt-bearer
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  token_endpoint_auth_methods_supported:
+  - client_secret_post
+  - client_secret_basic
+  - private_key_jwt
+  code_challenge_methods_supported:
+  - S256
+  smart_capabilities:
+  - launch-ehr
+  - launch-standalone
+  - client-public
+  - client-confidential-symmetric
+  - client-confidential-asymmetric
+  - context-banner
+  - context-style
+  - context-ehr-patient
+  - context-ehr-encounter
+  - context-standalone-patient
+  - permission-offline
+  - permission-patient
+  - permission-user
+  - permission-v1
+  - permission-v2
+  - sso-openid-connect
+  - authorize-post
+server_declared_scopes_supported:
+- epic.scanning.dmsusername
+- fhirUser
+- launch
+- openid
+- profile
+discrepancy: 'IMPORTANT: the server''s own scopes_supported list contains only five values and does NOT
+  enumerate any patient/*, user/* or system/* clinical scope — even though it declares the permission-patient,
+  permission-user, permission-offline, permission-v1 and permission-v2 SMART capabilities, which mean
+  those scope families ARE grantable. scopes_supported on this endpoint is therefore incomplete as a machine-readable
+  grant list: a client that trusted it would conclude no clinical data is reachable. The clinical scopes
+  below come from the OpenAPI security requirements and the SMART App Launch scope syntax the declared
+  capabilities commit to.'
 schemes:
 - name: smartOnFhir
-  source: openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  source: openapi/temple-health-allergy-intolerance-api-openapi.yml
   flows:
   - flow: authorizationCode
     authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
     tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
-  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app
-    launches.
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-bulk-data-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-condition-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-document-reference-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-encounter-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-medication-request-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-metadata-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-observation-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+- name: smartOnFhir
+  source: openapi/temple-health-patient-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize
+    tokenUrl: https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token
+  description: SMART on FHIR / OAuth 2.0 with PKCE for patient-facing and provider-facing app launches.
+scope_count: 15
 scopes:
+- scope: epic.scanning.dmsusername
+  description: Epic vendor-specific scope for document-management scanning user context. Epic-proprietary,
+    not part of SMART App Launch.
+  flows:
+  - authorizationCode
+  sources:
+  - well-known/temple-health-smart-configuration.json
+  method: probed
+  vendor_specific: true
 - scope: fhirUser
   description: Identity of the user launching the app
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: launch
   description: EHR launch context for provider-launched apps
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: offline_access
   description: Refresh token for long-lived access
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: openid
   description: OpenID Connect authentication
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/AllergyIntolerance.read
   description: Read the launching patient's allergies
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/Condition.read
   description: Read the launching patient's conditions
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/DocumentReference.read
   description: Read the launching patient's documents
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/Encounter.read
   description: Read the launching patient's encounters
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/MedicationRequest.read
   description: Read the launching patient's medication requests
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/Observation.read
   description: Read the launching patient's observations
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: patient/Patient.read
   description: Read the launching patient's demographics
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
+- scope: profile
+  description: OpenID Connect profile claim for the launching user
+  flows:
+  - authorizationCode
+  sources:
+  - well-known/temple-health-smart-configuration.json
+  method: probed
 - scope: system/Patient.read
   description: System-level Patient read (Bulk Data)
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
 - scope: user/Patient.read
   description: Read Patient as the launching user
   flows:
   - authorizationCode
   sources:
-  - openapi/temple-health-temple-health-fhir-r4-api-openapi.yml
+  - openapi/temple-health-allergy-intolerance-api-openapi.yml
+  - openapi/temple-health-bulk-data-api-openapi.yml
+  - openapi/temple-health-condition-api-openapi.yml
+  - openapi/temple-health-document-reference-api-openapi.yml
+  - openapi/temple-health-encounter-api-openapi.yml
+  - openapi/temple-health-medication-request-api-openapi.yml
+  - openapi/temple-health-metadata-api-openapi.yml
+  - openapi/temple-health-observation-api-openapi.yml
+  - openapi/temple-health-patient-api-openapi.yml
+  method: derived
+notes:
+- 'Scope syntax is SMART App Launch: <context>/<Resource>.<permission>. permission-v1 (.read/.write) and
+  permission-v2 (.rs/.cruds) are BOTH declared, so either syntax is accepted.'
+- offline_access is declared via the permission-offline capability and is required for refresh tokens.
+- system/* scopes apply only to the SMART Backend Services path (client_credentials + private_key_jwt)
+  used for Bulk Data, not to patient-facing apps.
+- No published scope reference page exists. Temple Health documents no scopes; Epic documents the scope
+  model generally at https://fhir.epic.com/Documentation. The endpoint itself is the only Temple-specific
+  source.

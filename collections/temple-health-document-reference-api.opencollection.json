@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temple Health FHIR R4 Allergy Intolerance Document Reference API",
+    "version": "4.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/authorize",
+      "accessTokenUrl": "https://epicaccess.templehealth.org/FhirProxyPrd/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Document Reference",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Document Reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/DocumentReference",
+            "params": [
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "Reference to the Patient (id or Patient/{id})."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "LOINC code identifying the document type."
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "US Core DocumentReference category (clinical-note)."
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Document date."
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Number of resources to return per page."
+              }
+            ]
+          },
+          "docs": "Search DocumentReference resources for a patient (clinical notes, CCDA documents, discharge summaries)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,393 @@
+generated: '2026-08-15'
+method: derived
+source: >-
+  Derived from the live R4 CapabilityStatement fetched 2026-08-15 from
+  https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata — every
+  relationship below is a searchParam of type "reference" that the server itself
+  declares — plus the schemas in openapi/*.yml.
+description: >-
+  The entity graph an agent actually gets from this endpoint. The refined
+  OpenAPIs in openapi/ cover seven resources; the live server declares 59. This
+  file records the full graph as the server states it, because the reference-type
+  search parameters ARE the relationship map: each one is a traversable edge the
+  server will resolve.
+
+root: Patient
+identity:
+  scheme: FHIR logical id (opaque server-assigned string)
+  path_form: '{base}/{ResourceType}/{id}'
+  note: >-
+    Epic logical ids are opaque and instance-specific; they are not stable across
+    FHIR versions (an R4 id is not a DSTU2 id) and must never be constructed. IDs
+    identify real patients — treat every id observed in a response as PHI.
+
+traversal:
+  include: '_include supported on every resource (searchInclude ["*"])'
+  rev_include: '_revinclude limited to Provenance:target on every resource'
+  note: >-
+    The only reverse edge the server will follow is Provenance — an agent cannot
+    ask "what points at this Patient?" for anything else, it must search each
+    resource type by patient=.
+
+entities:
+  - name: Patient
+    interactions: [create, read, search-type]
+    profile: us-core-patient|6.1.0
+    search_params: 30
+    note: The compartment root. Every clinical query is scoped by patient=.
+  - name: Encounter
+    interactions: [read, search-type]
+    search_params: 32
+  - name: Observation
+    interactions: [create, read, search-type, update]
+    profiles: 22 us-core Observation profiles (vitals, labs, smoking status, SDOH screening)
+    search_params: 30
+  - name: Condition
+    interactions: [create, read, search-type, update]
+  - name: AllergyIntolerance
+    interactions: [create, read, search-type, update]
+  - name: MedicationRequest
+    interactions: [read, search-type]
+  - name: DocumentReference
+    interactions: [create, read, search-type, update]
+    search_params: 27
+    note: Gateway to Binary — attachment content is fetched from Binary, not inline.
+  - name: Binary
+    interactions: [read, search-type]
+    note: Raw document/attachment bytes (CCDA, PDF, images). No search params.
+  - name: Group
+    interactions: [read, search-type]
+    operations: [group-export]
+    note: The Bulk Data export root. $export runs against a Group, not a Patient.
+  - name: Provenance
+    interactions: [read, search-type]
+    note: The only _revinclude target; carries the audit lineage for any resource.
+  - name: Coverage
+    interactions: [read, search-type]
+  - name: ExplanationOfBenefit
+    interactions: [read, search-type]
+    note: Claims/financial arm of the graph; hangs off Patient + Coverage + Claim.
+
+relationships:
+  # each `via` is a declared reference-type searchParam on the source resource
+  - from: AllergyIntolerance
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: AllergyIntolerance
+    to: [Practitioner, Patient, RelatedPerson]
+    type: has_one
+    via: asserter
+  - from: AllergyIntolerance
+    to: [Practitioner, PractitionerRole, Patient]
+    type: has_one
+    via: recorder
+  - from: Condition
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Condition
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: Condition
+    to: [Practitioner, Patient, RelatedPerson]
+    type: has_one
+    via: asserter
+  - from: Observation
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Observation
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: Observation
+    to: Observation
+    type: has_many
+    via: has-member
+    note: Panel/component structure — a lab panel points at its member observations.
+  - from: Observation
+    to: Observation
+    type: has_many
+    via: derived-from
+  - from: Observation
+    to: Specimen
+    type: has_one
+    via: specimen
+  - from: Observation
+    to: Device
+    type: has_one
+    via: device
+  - from: Observation
+    to: [Practitioner, PractitionerRole, Organization, CareTeam, Patient, RelatedPerson]
+    type: has_many
+    via: performer
+  - from: Encounter
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Encounter
+    to: Location
+    type: has_many
+    via: location
+  - from: Encounter
+    to: Organization
+    type: has_one
+    via: service-provider
+  - from: Encounter
+    to: EpisodeOfCare
+    type: belongs_to
+    via: episode-of-care
+  - from: Encounter
+    to: Appointment
+    type: has_one
+    via: appointment
+  - from: Encounter
+    to: Condition
+    type: has_many
+    via: diagnosis
+  - from: Encounter
+    to: Encounter
+    type: belongs_to
+    via: part-of
+  - from: Encounter
+    to: [Practitioner, PractitionerRole]
+    type: has_many
+    via: practitioner
+  - from: MedicationRequest
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: MedicationRequest
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: MedicationRequest
+    to: Medication
+    type: has_one
+    via: medication
+  - from: MedicationRequest
+    to: [Practitioner, PractitionerRole, Organization, Patient, RelatedPerson, Device]
+    type: has_one
+    via: requester
+  - from: MedicationDispense
+    to: MedicationRequest
+    type: belongs_to
+    via: prescription
+  - from: MedicationDispense
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: MedicationAdministration
+    to: MedicationRequest
+    type: belongs_to
+    via: request
+  - from: DocumentReference
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: DocumentReference
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: DocumentReference
+    to: [Practitioner, Organization, Patient, RelatedPerson, Device]
+    type: has_many
+    via: author
+  - from: DocumentReference
+    to: Organization
+    type: has_one
+    via: custodian
+  - from: DocumentReference
+    to: DocumentReference
+    type: has_many
+    via: relatesto
+  - from: DocumentReference
+    to: Binary
+    type: has_one
+    via: content.attachment.url
+    note: >-
+      Not a searchParam — the attachment URL inside the resource body points at a
+      Binary read. This is the one edge in the graph that is not searchable.
+  - from: DiagnosticReport
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: DiagnosticReport
+    to: Observation
+    type: has_many
+    via: result
+  - from: DiagnosticReport
+    to: Specimen
+    type: has_many
+    via: specimen
+  - from: DiagnosticReport
+    to: Media
+    type: has_many
+    via: media
+  - from: Procedure
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Procedure
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: Procedure
+    to: Location
+    type: has_one
+    via: location
+  - from: CarePlan
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: CarePlan
+    to: [Condition]
+    type: has_many
+    via: condition
+  - from: CarePlan
+    to: Goal
+    type: has_many
+    via: goal
+  - from: CarePlan
+    to: CareTeam
+    type: has_one
+    via: care-team
+  - from: CareTeam
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: CareTeam
+    to: [Practitioner, PractitionerRole, RelatedPerson, Patient, Organization]
+    type: has_many
+    via: participant
+  - from: Goal
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Immunization
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Immunization
+    to: Location
+    type: has_one
+    via: location
+  - from: Coverage
+    to: Patient
+    type: belongs_to
+    via: beneficiary
+  - from: Coverage
+    to: Organization
+    type: has_many
+    via: payor
+  - from: Coverage
+    to: [Patient, RelatedPerson]
+    type: has_one
+    via: subscriber
+  - from: ExplanationOfBenefit
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: ExplanationOfBenefit
+    to: Coverage
+    type: has_one
+    via: coverage
+  - from: ExplanationOfBenefit
+    to: Claim
+    type: has_one
+    via: claim
+  - from: ExplanationOfBenefit
+    to: Encounter
+    type: has_many
+    via: encounter
+  - from: EpisodeOfCare
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: EpisodeOfCare
+    to: Organization
+    type: has_one
+    via: organization
+  - from: ServiceRequest
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: ServiceRequest
+    to: Encounter
+    type: belongs_to
+    via: encounter
+  - from: ServiceRequest
+    to: Specimen
+    type: has_many
+    via: specimen
+  - from: Task
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Task
+    to: Task
+    type: belongs_to
+    via: part-of
+  - from: RelatedPerson
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Patient
+    to: [Practitioner, PractitionerRole, Organization]
+    type: has_many
+    via: general-practitioner
+  - from: Patient
+    to: Organization
+    type: has_one
+    via: organization
+  - from: Patient
+    to: [Patient, RelatedPerson]
+    type: has_many
+    via: link
+  - from: Device
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Appointment
+    to: Patient
+    type: belongs_to
+    via: patient
+  - from: Appointment
+    to: Location
+    type: has_one
+    via: location
+  - from: Location
+    to: Organization
+    type: belongs_to
+    via: organization
+  - from: Location
+    to: Location
+    type: belongs_to
+    via: partof
+  - from: Provenance
+    to: any
+    type: has_many
+    via: target
+    note: Reachable only as _revinclude=Provenance:target on another resource's search.
+
+resources_with_no_reference_edges:
+  - Binary
+  - Group
+  - Medication
+  - Organization
+  - Practitioner
+  - Provenance
+  - Specimen
+  - ValueSet
+  - ConceptMap
+
+privacy:
+  classification: PHI
+  note: >-
+    Every resource in this graph except the terminology resources (ValueSet,
+    ConceptMap) and Medication returns protected health information about a real
+    patient once a token is presented. No example in this repo may contain a live
+    response body. Structural documentation is the deliverable; the specific human
+    is not.

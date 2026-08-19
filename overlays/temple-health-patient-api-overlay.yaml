@@ -1,0 +1,61 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Temple Health FHIR R4 Allergy Intolerance Patient API
+  version: 1.0.0
+extends: openapi/temple-health-patient-api-openapi.yml
+x-generated: '2026-08-15'
+x-method: generated
+x-source: Live probes of https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4 on 2026-08-15 plus
+  the derived artifacts in this repository. The original OpenAPI is never mutated.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and the live conformance facts observed on 2026-08-15.
+  update:
+    x-apievangelist-provider: temple-health
+    x-apievangelist-enriched: '2026-08-15'
+    x-fhir-version: 4.0.1
+    x-us-core-version: 6.1.0
+    x-epic-release: February 2026 (releaseDate 2026-07-10, observed 2026-08-15)
+    x-capability-statement: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/metadata
+    x-smart-configuration: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4/.well-known/smart-configuration
+    x-regulatory-basis: CMS-9115-F Interoperability and Patient Access; 21st Century Cures Act ONC Final
+      Rule
+- target: $.servers[0]
+  description: Annotate the production server with observed runtime behaviour.
+  update:
+    x-observed:
+      probed: '2026-08-15'
+      tls: TLSv1.2
+      hsts: max-age=31536000; includeSubDomains
+      cors: 'Access-Control-Allow-Origin: * with Allow-Credentials: true'
+      cache_control: no-cache,no-store
+      unauthenticated_response: '401 with bare "WWW-Authenticate: Bearer" and an empty JSON body (no OperationOutcome)'
+      rate_limit_headers: none observed
+- target: $
+  description: Record that responses carry protected health information.
+  update:
+    x-data-classification: PHI
+    x-agent-handling: Stay inside the SMART patient context granted by the token. Never accept a model-supplied
+      patient identifier. Do not log or transcribe response bodies.
+- target: $.paths['/Patient/{id}'].get
+  description: Cross-link readPatient to the derived artifacts in this repository.
+  update:
+    x-apievangelist-artifacts:
+      conventions: conventions/temple-health-conventions.yml
+      errors: errors/temple-health-problem-types.yml
+      authentication: authentication/temple-health-authentication.yml
+      scopes: scopes/temple-health-scopes.yml
+      data_model: data-model/temple-health-data-model.yml
+    x-idempotency: not supported — server declares conditionalCreate:false and conditionalUpdate:false
+      on all 59 resource types
+- target: $.paths['/Patient'].get
+  description: Cross-link searchPatient to the derived artifacts in this repository.
+  update:
+    x-apievangelist-artifacts:
+      conventions: conventions/temple-health-conventions.yml
+      errors: errors/temple-health-problem-types.yml
+      authentication: authentication/temple-health-authentication.yml
+      scopes: scopes/temple-health-scopes.yml
+      data_model: data-model/temple-health-data-model.yml
+    x-idempotency: not supported — server declares conditionalCreate:false and conditionalUpdate:false
+      on all 59 resource types

@@ -1,0 +1,48 @@
+generated: '2026-08-15'
+method: searched
+source: >-
+  Registry searches run 2026-08-15 against npm (registry.npmjs.org search),
+  PyPI (pypi.org/pypi/<name>/json), RubyGems (rubygems.org/api/v1/gems/<name>.json),
+  plus the Temple Health GitHub organization and every Temple Health web
+  property named in apis.yml.
+package_count: 0
+packages: []
+description: >-
+  Temple Health publishes no client libraries. This is the expected result for a
+  CMS-mandated patient-access FHIR endpoint: the regulation requires the API, not
+  a developer program, and the ecosystem's client libraries are written against
+  FHIR itself rather than against any one health system.
+
+searched:
+  - registry: npm
+    query: ['temple-health', 'templehealth']
+    result: no first-party package (matches were unrelated projects)
+  - registry: pypi
+    query: temple-health
+    result: 404
+  - registry: rubygems
+    query: temple-health
+    result: 404
+  - registry: github
+    org: https://github.com/Temple-Health
+    result: >-
+      Organization exists (created 2022-04-07) with 0 public repositories. No
+      published source, no SDK, no sample app.
+  - source: apis.yml properties
+    result: >-
+      No SDK, CLI or SourceCode link exists on any api entry to derive a candidate
+      from. Every developer-facing link on this provider points at Epic
+      (fhir.epic.com), not at Temple Health.
+
+third_party_context: >-
+  Integrators build against this endpoint with generic FHIR clients — fhirclient
+  (SMART on FHIR JS), fhir-kit-client, @medplum/core, HAPI FHIR, firely-net-sdk
+  and the like. Those are deliberately NOT listed as packages here: none is
+  first-party to Temple Health and listing them would misattribute another
+  project's work to this provider.
+
+pointer_note: >-
+  No Packages pointer and no SDKs pointer is emitted in apis.yml. Zero official
+  client libraries were found, so a pointer would assert a surface the provider
+  does not have. This file records the checked absence so a later round does not
+  repeat the search.

@@ -1,30 +1,34 @@
-generated: '2026-07-11'
+generated: '2026-08-15'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.templehealth.org
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 14 01:30:17 2026 GMT
+  cert_expires: Nov 12 00:46:51 2026 GMT
   hsts: false
 - host: epicaccess.templehealth.org
   https: true
   tls_version: TLSv1.2
   cert_expires: Feb  2 23:59:59 2027 GMT
   hsts: false
-- host: my.templehealth.org
-  https: true
-  tls_version: TLSv1.2
-  cert_expires: Feb  2 23:59:59 2027 GMT
-  hsts: true
-  hsts_max_age: 31536000
 domains:
 - domain: templehealth.org
   dnssec: false
   caa:
+  - 0 issue "letsencrypt.org"
   - 0 issue "digicert.com"
   - 0 issue "entrust.net"
-  - 0 issue "letsencrypt.org"
   spf: true
   dmarc: true
   dmarc_policy: reject
+notes:
+- 'HSTS discrepancy, observed 2026-08-15: the mechanical probe records hsts:false for epicaccess.templehealth.org
+  because the origin-root 404 page carries no HSTS header. The FHIR API paths on that same host DO return
+  "strict-transport-security: max-age=31536000; includeSubDomains" on both 200 and 401 responses. The
+  API surface is HSTS-protected; the host root is not.'
+- 'my.templehealth.org (the myTempleHealth/MyChart portal) is not in the probed host list because it is
+  carried as a PatientPortal property rather than a baseURL. Probed separately 2026-08-15: HTTPS, TLSv1.2,
+  HSTS present with max-age 31536000.'
+- No security.txt on any Temple Health host, so no RFC 9116 contact exists for reporting a finding against
+  these hosts. See well-known/temple-health-well-known.yml.

@@ -1,0 +1,71 @@
+generated: '2026-08-15'
+method: generated
+source: >-
+  Grounded in the operationIds present in openapi/*.yml (verified by grep) and in
+  the live R4 CapabilityStatement / SMART configuration fetched 2026-08-15.
+  Temple Health publishes no skills, AGENTS.md or agent guidance of its own —
+  searched and not found.
+description: >-
+  Packaged operating instructions for the three flows this endpoint actually
+  supports. Every step cites a real operationId; nothing is invented. Because
+  this API returns PHI, each skill carries its handling constraints inline rather
+  than deferring them to a policy document.
+
+skills:
+  - file: temple-health-discover-the-endpoint.md
+    name: Discover the Temple Health FHIR endpoint
+    api: openapi/temple-health-metadata-api-openapi.yml
+    operations: [getMetadata, getSmartConfiguration]
+    auth: none
+    phi: false
+    note: >-
+      The only flow completable with no credentials. Should be run first by any
+      agent, because the supported resources and search parameters move with the
+      Epic release train and are announced nowhere.
+  - file: temple-health-patient-access-launch.md
+    name: Patient access — launch and read one patient's record
+    api: openapi/temple-health-patient-api-openapi.yml
+    operations:
+      - getSmartConfiguration
+      - readPatient
+      - searchCondition
+      - searchAllergyIntolerance
+      - searchMedicationRequest
+      - searchObservation
+      - searchEncounter
+      - searchDocumentReference
+    auth: SMART App Launch (authorization_code + PKCE S256)
+    phi: true
+  - file: temple-health-bulk-data-export.md
+    name: Bulk Data — Group-level $export
+    api: openapi/temple-health-bulk-data-api-openapi.yml
+    operations: [bulkExportGroup, getMetadata]
+    auth: SMART Backend Services (client_credentials + private_key_jwt)
+    phi: true
+    note: >-
+      Population-scale. Governed by a data-use agreement, not patient
+      authorization. Documented because it is a declared capability; flagged as
+      not appropriate for a general-purpose agent.
+
+deliberate_omissions:
+  - operation: searchPatient
+    reason: >-
+      Real and documented in openapi/temple-health-patient-api-openapi.yml, but NOT
+      packaged as a standalone skill. Demographic search across a hospital's patient
+      index (30 declared search parameters including name, birthdate, identifier) is
+      a materially different capability from reading the record of the patient who
+      authorized the app. The patient-access skill routes to readPatient with the
+      token's own patient context instead. Recorded here so the omission reads as
+      deliberate rather than as an oversight.
+  - surface: write operations
+    reason: >-
+      13 of the 59 live resource types accept create/update, but the server declares
+      conditionalCreate:false and conditionalUpdate:false across every resource —
+      there is no idempotency contract, so a retried write may duplicate a clinical
+      record. No write skill is packaged until that is resolved with the provider.
+
+phi_policy: >-
+  Every skill in this index that touches a clinical resource is marked phi:true.
+  No example in any skill contains a real response body, a real patient
+  identifier, or a real logical id — structural documentation is the deliverable,
+  the specific human is not.
