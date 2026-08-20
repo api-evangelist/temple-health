@@ -13,6 +13,26 @@ tags:
   - Healthcare
   - Hospital System
   - MyChart
+  - Authentication
+  - Patient Access
+  - Price Transparency
+  - R4
+  - SMART on FHIR
+  - Temple University
+  - US Core
+  - USCDI
+tags_raw:
+  - Academic Medical Center
+  - CMS Interoperability
+  - Cures Act
+  - DSTU2
+  - Epic
+  - FHIR
+  - Fox Chase Cancer Center
+  - HL7
+  - Healthcare
+  - Hospital System
+  - MyChart
   - OAuth 2.0
   - Patient Access
   - Price Transparency
@@ -202,6 +222,8 @@ apis:
     humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
+      - AllergyIntolerance
+    tags_raw:
       - Allergy Intolerance
     properties:
       - type: OpenAPI
@@ -313,6 +335,8 @@ apis:
     humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
+      - DocumentReference
+    tags_raw:
       - Document Reference
     properties:
       - type: OpenAPI
@@ -388,6 +412,8 @@ apis:
     humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
+      - MedicationRequest
+    tags_raw:
       - Medication Request
     properties:
       - type: OpenAPI
