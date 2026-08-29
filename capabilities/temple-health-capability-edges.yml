@@ -11,25 +11,46 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 2
+edge_count: 4
 edges:
 - tag: Allergy Intolerance
   spec_file: temple-health-allergy-intolerance-api-openapi.yml
   capability_id: BC-2900.60
   capability_id_l1: BC-2900
   capability_name: Healthcare Interoperability Operations
-  confidence: 0.7
-  evidence: '"Exposes USCDI-aligned clinical resources to third-party patient-access applications under
-    SMART on FHIR / OAuth 2.0"; GET /AllergyIntolerance searchAllergyIntolerance'
-  reason: Read-only FHIR search over allergy data published for CMS Patient Access compliance; the capability
-    realised is operation of FHIR endpoints for interoperability, not allergy documentation itself.
+  confidence: 0.75
+  evidence: GET /AllergyIntolerance searchAllergyIntolerance — "CMS Interoperability and Patient Access
+    (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API ... to third-party patient-access applications under
+    SMART on FHIR / OAuth 2.0"
+  reason: A provider health system exposing USCDI-aligned FHIR resources for patient-access apps; this
+    is health information interoperability operation, not allergy care delivery.
 - tag: Condition
   spec_file: temple-health-condition-api-openapi.yml
   capability_id: BC-2900.60
   capability_id_l1: BC-2900
   capability_name: Healthcare Interoperability Operations
+  confidence: 0.75
+  evidence: GET /Condition searchCondition — "Exposes USCDI-aligned clinical resources to third-party
+    patient-access applications under SMART on FHIR / OAuth 2.0"
+  reason: Read-only FHIR problem-list resource on the health system's patient-access interoperability
+    endpoint.
+- tag: Document Reference
+  spec_file: temple-health-document-reference-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
+  confidence: 0.75
+  evidence: GET /DocumentReference searchDocumentReference — "CMS Interoperability and Patient Access
+    (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API"
+  reason: Clinical document retrieval through the FHIR patient-access endpoint; realises healthcare interoperability
+    operations for the provider.
+- tag: Bulk Data
+  spec_file: temple-health-bulk-data-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
   confidence: 0.7
-  evidence: '"Exposes USCDI-aligned clinical resources to third-party patient-access applications under
-    SMART on FHIR / OAuth 2.0"; GET /Condition searchCondition'
-  reason: Problem-list data is only being read out through a compliance-driven FHIR endpoint; the API
-    realises interoperability operations rather than clinical documentation authoring.
+  evidence: GET /Group/{id}/$export bulkExportGroup Group Level Bulk Export, on the "CMS Interoperability
+    and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API"
+  reason: FHIR Bulk Data export is a regulated provider-to-third-party data sharing mechanism; maps to
+    healthcare interoperability operations rather than generic data export plumbing.
