@@ -71,7 +71,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/temple-hea
 access: 3rd-Party
 created: '2026-05-23'
 modified: '2026-08-15'
-position: Consumer
+position: Consuming
 specificationVersion: '0.23'
 description: >-
   Temple University Health System (Temple Health) is the Philadelphia-based academic health system affiliated with the
@@ -169,9 +169,10 @@ common:
     url: data-model/temple-health-data-model.yml
   - type: LLMsTxt
     url: llms/temple-health-llms.txt
-  - type: MCPServer
+  - type: X-MCPServerCandidate
     name: 'Candidate tool surface only — Temple Health hosts no MCP server (deployment mode: none)'
     url: mcp/temple-health-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
   - type: AgentSkill
     url: skills/_index.yml
   - type: Examples
