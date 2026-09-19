@@ -541,6 +541,8 @@ apis:
     humanURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     baseURL: https://epicaccess.templehealth.org/FhirProxyPrd/api/FHIR/R4
     tags:
+      - Patients
+    tags_raw:
       - Patient
     properties:
       - type: OpenAPI
