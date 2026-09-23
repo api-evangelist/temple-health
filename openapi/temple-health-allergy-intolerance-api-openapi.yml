@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Temple Health FHIR R4 Allergy Intolerance API
   description: OpenAPI surface for the Temple Health FHIR R4 endpoint, Temple University Health System's CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API powered by Epic's August 2025 release. Exposes USCDI-aligned clinical resources to third-party patient-access applications under SMART on FHIR / OAuth 2.0. Only a subset of the 80+ supported FHIR resource types is documented here — refer to the live CapabilityStatement for the full surface.
@@ -52,6 +52,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Bundle'
 components:
+  parameters:
+    Count:
+      name: _count
+      in: query
+      description: Number of resources to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+    PatientReference:
+      name: patient
+      in: query
+      required: true
+      description: Reference to the Patient (id or Patient/{id}).
+      schema:
+        type: string
   schemas:
     Bundle:
       type: object
@@ -71,22 +87,6 @@ components:
           type: array
           items:
             type: object
-  parameters:
-    PatientReference:
-      name: patient
-      in: query
-      required: true
-      description: Reference to the Patient (id or Patient/{id}).
-      schema:
-        type: string
-    Count:
-      name: _count
-      in: query
-      description: Number of resources to return per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
   securitySchemes:
     smartOnFhir:
       type: oauth2

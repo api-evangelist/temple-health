@@ -1,15 +1,7 @@
 {
   "provider": "temple-health",
   "sources": [
-    "temple-health-allergy-intolerance-api-openapi.yml",
-    "temple-health-bulk-data-api-openapi.yml",
-    "temple-health-condition-api-openapi.yml",
-    "temple-health-document-reference-api-openapi.yml",
-    "temple-health-encounter-api-openapi.yml",
-    "temple-health-medication-request-api-openapi.yml",
-    "temple-health-metadata-api-openapi.yml",
-    "temple-health-observation-api-openapi.yml",
-    "temple-health-patient-api-openapi.yml"
+    "_original/temple-health-temple-health-fhir-r4-api-openapi.yml"
   ],
   "outputs": [
     "temple-health-allergy-intolerance-api-openapi.yml",
@@ -25,6 +17,20 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "temple-health-temple-health-fhir-r4-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "temple-health-allergy-intolerance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-bulk-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-condition-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-document-reference-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-encounter-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-medication-request-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-observation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temple-health-patient-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

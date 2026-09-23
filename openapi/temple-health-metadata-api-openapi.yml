@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Temple Health FHIR R4 Allergy Intolerance Metadata API
+  title: Temple Health FHIR R4 Metadata API
   description: OpenAPI surface for the Temple Health FHIR R4 endpoint, Temple University Health System's CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API powered by Epic's August 2025 release. Exposes USCDI-aligned clinical resources to third-party patient-access applications under SMART on FHIR / OAuth 2.0. Only a subset of the 80+ supported FHIR resource types is documented here — refer to the live CapabilityStatement for the full surface.
   version: 4.0.1
   contact:

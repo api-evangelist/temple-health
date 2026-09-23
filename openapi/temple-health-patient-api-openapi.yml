@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Temple Health FHIR R4 Allergy Intolerance Patient API
+  title: Temple Health FHIR R4 Patient API
   description: OpenAPI surface for the Temple Health FHIR R4 endpoint, Temple University Health System's CMS Interoperability and Patient Access (CMS-9115-F) compliant HL7 FHIR Release 4.0.1 API powered by Epic's August 2025 release. Exposes USCDI-aligned clinical resources to third-party patient-access applications under SMART on FHIR / OAuth 2.0. Only a subset of the 80+ supported FHIR resource types is documented here — refer to the live CapabilityStatement for the full surface.
   version: 4.0.1
   contact:
@@ -100,23 +100,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/Bundle'
 components:
-  parameters:
-    Count:
-      name: _count
-      in: query
-      description: Number of resources to return per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-    ResourceId:
-      name: id
-      in: path
-      required: true
-      description: FHIR logical id of the resource.
-      schema:
-        type: string
   schemas:
+    Patient:
+      type: object
+      description: HL7 FHIR Patient resource (US Core profile).
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - Patient
+        id:
+          type: string
+        identifier:
+          type: array
+          items:
+            type: object
+        name:
+          type: array
+          items:
+            type: object
+        gender:
+          type: string
+        birthDate:
+          type: string
+          format: date
     Bundle:
       type: object
       description: HL7 FHIR Bundle resource (searchset).
@@ -146,29 +153,22 @@ components:
           type: array
           items:
             type: object
-    Patient:
-      type: object
-      description: HL7 FHIR Patient resource (US Core profile).
-      properties:
-        resourceType:
-          type: string
-          enum:
-          - Patient
-        id:
-          type: string
-        identifier:
-          type: array
-          items:
-            type: object
-        name:
-          type: array
-          items:
-            type: object
-        gender:
-          type: string
-        birthDate:
-          type: string
-          format: date
+  parameters:
+    Count:
+      name: _count
+      in: query
+      description: Number of resources to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      description: FHIR logical id of the resource.
+      schema:
+        type: string
   responses:
     NotFound:
       description: Resource not found.
