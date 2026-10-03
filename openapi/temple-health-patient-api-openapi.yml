@@ -140,6 +140,17 @@ components:
         birthDate:
           type: string
           format: date
+    OperationOutcome:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - OperationOutcome
+        issue:
+          type: array
+          items:
+            type: object
     Bundle:
       type: object
       description: HL7 FHIR Bundle resource (searchset).
@@ -155,17 +166,6 @@ components:
         total:
           type: integer
         entry:
-          type: array
-          items:
-            type: object
-    OperationOutcome:
-      type: object
-      properties:
-        resourceType:
-          type: string
-          enum:
-          - OperationOutcome
-        issue:
           type: array
           items:
             type: object
