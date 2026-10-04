@@ -59,6 +59,23 @@ paths:
                 $ref: '#/components/schemas/SmartConfiguration'
 components:
   schemas:
+    SmartConfiguration:
+      type: object
+      properties:
+        authorization_endpoint:
+          type: string
+          format: uri
+        token_endpoint:
+          type: string
+          format: uri
+        scopes_supported:
+          type: array
+          items:
+            type: string
+        capabilities:
+          type: array
+          items:
+            type: string
     CapabilityStatement:
       type: object
       description: HL7 FHIR CapabilityStatement resource.
@@ -78,23 +95,6 @@ components:
           type: array
           items:
             type: object
-    SmartConfiguration:
-      type: object
-      properties:
-        authorization_endpoint:
-          type: string
-          format: uri
-        token_endpoint:
-          type: string
-          format: uri
-        scopes_supported:
-          type: array
-          items:
-            type: string
-        capabilities:
-          type: array
-          items:
-            type: string
   securitySchemes:
     smartOnFhir:
       type: oauth2
