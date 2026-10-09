@@ -80,3 +80,34 @@ plans:
   references:
   - https://www.templehealth.org/pricing-disclaimer
   - https://www.templehealth.org/financial-assistance
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Temple Health Patient Access FHIR (Free)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Temple Health FHIR DSTU2 (Free, Legacy)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Temple Health Hospital Price Transparency Files (Public)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Clinical Care (Out of Scope for Developer Pricing)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
